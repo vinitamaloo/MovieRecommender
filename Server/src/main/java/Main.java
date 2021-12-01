@@ -1,24 +1,24 @@
-import org.apache.jena.rdf.model.InfModel;
-import org.apache.jena.rdf.model.Model;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
-import org.apache.log4j.PropertyConfigurator;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-/**
- * @author Vinita Maloo(vmaloo@asu.edu)
- */
-
+@SpringBootApplication
+@EnableAutoConfiguration
 public class Main {
-
 	public static String serviceEndPoint = "http://localhost:3030/rating/query"; 
-	public static String user= "2"; 
+	public static String user= "2";
+
     public static void main(String[] args) {
-    
+		System.setProperty("java.net.preferIPv4Stack", "true");
+		SpringApplication.run(Main.class, args);
+
     	contentBasedFiltering();
-    	
     }
+
     public static void contentBasedFiltering() 
     {
     	String queryString = "\n PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
@@ -47,7 +47,5 @@ public class Main {
 		 while(results.hasNext()) {
 			 System.out.println(results.next().toString());
 		 }
-		 
-		 
 	}
 }
