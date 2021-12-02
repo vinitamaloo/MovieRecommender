@@ -6,7 +6,7 @@ import java.util.List;
 @Service
 public class Services {
 
-    public static String serviceEndPoint = "http://localhost:3030/rating/query";
+    public static String serviceEndPoint = "http://localhost:3030/cast/query";
 
     public List<Movie> getMovieDetails(String movieId)
     {
@@ -48,6 +48,37 @@ public class Services {
             System.out.println(sol.toString());
         }
 
+        return null;
+    }
+
+    public List<Movie> getPopularMovies()
+    {
+        String queryString = "\n PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
+                +"\n PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
+                +"\n PREFIX owl: <http://www.w3.org/2002/07/owl#>"
+                +"\n PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>"
+                +"\n PREFIX movie: <http://www.semanticweb.org/iti/ontologies/2021/10/untitled-ontology-17#>"
+                +"\n PREFIX mo: <http://purl.org/ontology/mo/>"
+                +"\n SELECT ?title ?id ?overview ?language ?popularity"
+                +"\n WHERE {"
+                +"\n ?movie rdf:type movie:Movies."
+                +"\n ?movie movie:movie_id ?id."
+                +"\n ?movie movie:original_title ?title."
+                +"\n ?movie movie:overview ?overview."
+                +"\n ?movie movie:original_language ?language."
+                +"\n ?movie movie:release_date ?release_date."
+                +"\n ?movie movie:popularity ?popularity."
+                    +"\n }"
+                        +"\n ORDER BY DESC (?release_date) (?popularity)"
+                        + "\n LIMIT 3";
+
+        QueryExecution qexec = QueryExecutionFactory.sparqlService(serviceEndPoint, queryString);
+
+        ResultSet results = qexec.execSelect();
+        List<QuerySolution> solutions = ResultSetFormatter.toList(results);
+        for(QuerySolution sol : solutions) {
+            System.out.println(sol.toString());
+        }
         return null;
     }
 }

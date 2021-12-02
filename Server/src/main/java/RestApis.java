@@ -14,7 +14,8 @@ public class RestApis {
 
     @PostMapping("/get_popular_movies")
     public List<Movie> getPopularMovies(@RequestBody Filter filter) {
-        return new ArrayList<>();
+        List<Movie> movies = services.getPopularMovies();
+        return movies;
     }
 
     @PostMapping("/get_recommendation_by_user")

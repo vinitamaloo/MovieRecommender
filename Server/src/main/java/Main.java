@@ -9,14 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @EnableAutoConfiguration
 public class Main {
-	public static String serviceEndPoint = "http://localhost:3030/rating/query"; 
+	public static String serviceEndPoint = "http://localhost:3030/cast/query"; 
 	public static String user= "2";
 
 	public static void main(String[] args) {
 //		System.setProperty("java.net.preferIPv4Stack", "true");
 //		SpringApplication.run(Main.class, args);
 		Services services = new Services();
-		services.getMovieDetails("1");
+		services.getMovieDetails("100");
+		services.getPopularMovies();
     	contentBasedFiltering();
     }
 
