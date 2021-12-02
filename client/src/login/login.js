@@ -1,19 +1,20 @@
 import {React, useState} from "react";
-import {get_popular_movies, get_recommendation_by_user } from "../api/services";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { useNavigate } from 'react-router-dom';
 import "./login.css";
 
 export default function Login() {
   const [userId, setUserId] = useState("");
+  const navigate = useNavigate();
 
   async function handleSubmit(event) {
     event.preventDefault()
     const user = {
-      "user_id": userId,
+      "user_id": userId
     }
-    await get_popular_movies(user);
-    await get_recommendation_by_user(user);
+
+    navigate('/homepage');
   }
 
    return (

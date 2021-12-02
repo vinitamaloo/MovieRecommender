@@ -1,0 +1,10 @@
+.card{
+    width: 25rem;
+    margin-top: 20px;
+    border-radius: 10px;
+    background-color: whitesmoke;
+    border-color: gray;
+}
+.cardLink{
+    display: flex;
+}
