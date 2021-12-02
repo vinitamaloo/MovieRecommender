@@ -14,6 +14,7 @@ export default function Login() {
       "user_id": userId
     }
 
+    localStorage.setItem('userId', userId)
     navigate('/homepage');
   }
 

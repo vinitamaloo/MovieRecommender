@@ -1,5 +1,5 @@
 .card{
-    width: 25rem;
+    width: 20rem;
     margin-top: 20px;
     border-radius: 10px;
     background-color: whitesmoke;
@@ -7,4 +7,9 @@
 }
 .cardLink{
     display: flex;
+    justify-content: center;
 }
+ .image {
+     width: 200px;
+     height: 200px;
+ }

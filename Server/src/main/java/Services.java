@@ -16,7 +16,7 @@ public class Services {
                 +"\n PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>"
                 +"\n PREFIX ds1: <http://www.semanticweb.org/ontologies/2021/10/untitled-ontology-52#>"
                 +"\n PREFIX ds2: <http://www.semanticweb.org/iti/ontologies/2021/10/untitled-ontology-17#>"
-                +"\n ?movie_id ?cast_name ?cast_character ?original_title ?overview ?release_date ?genre"
+                +"\n SELECT ?movie_id ?cast_name ?cast_character ?original_title ?overview ?release_date ?genre"
                 +"\n WHERE {"
                 +"\n ?movies rdf:type ds2:Movies."
                 +"\n ?movies ds2:movie_id ?movie_id."
