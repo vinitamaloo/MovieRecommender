@@ -13,8 +13,8 @@ public class Main {
 	public static String user= "2";
 
 	public static void main(String[] args) {
-		System.setProperty("java.net.preferIPv4Stack", "true");
-		SpringApplication.run(Main.class, args);
+//		System.setProperty("java.net.preferIPv4Stack", "true");
+//		SpringApplication.run(Main.class, args);
 		Services services = new Services();
 		services.getMovieDetails("1");
     	contentBasedFiltering();
