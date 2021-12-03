@@ -18,7 +18,7 @@ public class Main {
 		Services services = new Services();
 		services.getMovieDetails("100");
 		services.getPopularMovies();
-    	contentBasedFiltering();
+    	//contentBasedFiltering();
     }
 
     public static void contentBasedFiltering() 
