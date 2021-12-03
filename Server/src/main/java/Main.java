@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.ResultSet;
@@ -18,7 +22,9 @@ public class Main {
 		Services services = new Services();
 		services.getMovieDetails("100");
 		services.getPopularMovies();
-    	ContentBasedFiltering.contentBasedFiltering();;
+
+		services.getMovieRecommendationsFromOtherUsers(services.getMovieRecommendationsFromOtherUsers(2));
+    	ContentBasedFiltering.contentBasedFiltering();
     }
 
 	public static void loadTest(String query) {
