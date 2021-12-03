@@ -10,6 +10,8 @@ public class Movie {
     private String original_title;
     private Integer release_date;
     private List<Genre> genre;
+    private String original_language;
+    private Double vote_average;
 
     public Integer getMovie_id() {
         return movie_id;
@@ -68,6 +70,24 @@ public class Movie {
                 ", original_title='" + original_title + '\'' +
                 ", release_date=" + release_date +
                 ", genre=" + genre +
+                ", original_language='" + original_language + '\'' +
+                ", vote_average=" + vote_average +
                 '}';
+    }
+
+    public String getOriginal_language() {
+        return original_language;
+    }
+
+    public void setOriginal_language(String original_language) {
+        this.original_language = original_language;
+    }
+
+    public Double getVote_average() {
+        return vote_average;
+    }
+
+    public void setVote_average(Double vote_average) {
+        this.vote_average = vote_average;
     }
 }
