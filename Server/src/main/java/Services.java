@@ -11,7 +11,24 @@ public class Services {
     public static String serviceEndPoint = "http://localhost:3030/cast/query";
     public static String temp_serviceEndPoint = "http://localhost:3030/User/sparql";
 
-    public List<Integer> getMovieRecommendationsFromOtherUsers(int userid){
+    public List<String> getMovieRecommendationsFromOtherUsers(List<String> movieId){
+        if(movieId.size()==0)
+        return null;
+        String movieIdString=createMyCustomQuery(movieId);
+        getMovieDetails(movieIdString);
+        return null;
+    }
+    private String createMyCustomQuery(List<String> movieId) {
+        String queryAddition=movieId.get(0);
+        if(movieId.size()==1)
+        return queryAddition;
+        int i=1;
+        while(i<movieId.size()){
+            queryAddition+=" || ?movie_id = "+movieId.get(i);
+        }
+        return queryAddition;
+    }
+    public List<String> getMovieRecommendationsFromOtherUsers(int userid){
     	String query = "PREFIX owl: <http://www.w3.org/2002/07/owl#>"
 		+"\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
 		+"\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
@@ -55,7 +72,7 @@ public class Services {
        	 
     }
 
-	public List<Integer> getMovieRecommendationsFromOtherUsersSupport(String query){
+	public List<String> getMovieRecommendationsFromOtherUsersSupport(String query){
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(temp_serviceEndPoint,query);	
 		 ResultSet results = qexec.execSelect();
 		String s= ResultSetFormatter.asText(results);
@@ -66,7 +83,7 @@ public class Services {
 		int left=74;
 		int leftOfId=85;
 		String key=s.substring(82,85);
-		HashMap<String,List<Integer>> eachUserWithTheir3Recommendations=new HashMap<>();
+		HashMap<String,List<String>> eachUserWithTheir3Recommendations=new HashMap<>();
 		while(left<s.length()-50)
 		{
 			int right=0;
@@ -76,15 +93,15 @@ public class Services {
 				leftOfId+=24;
 				right=left+getNumberOfDigits(left,s);
 				//System.out.println(" <--------    "+s.substring(left, right));
-				List<Integer> temp=eachUserWithTheir3Recommendations.getOrDefault(key, new ArrayList<>());
-                temp.add(Integer.valueOf(s.substring(left, right)));
+				List<String> temp=eachUserWithTheir3Recommendations.getOrDefault(key, new ArrayList<>());
+                temp.add(s.substring(left, right));
 				eachUserWithTheir3Recommendations.put(key,temp);
 				left+=24;
 		}
 		//System.out.println(eachUserWithTheir3Recommendations.keySet());
-		List<Integer> finalRecommendations=new ArrayList<>();
+		List<String> finalRecommendations=new ArrayList<>();
 		for(String keyIter:eachUserWithTheir3Recommendations.keySet()) {
-			List<Integer> movieRecommendations=eachUserWithTheir3Recommendations.get(keyIter);
+			List<String> movieRecommendations=eachUserWithTheir3Recommendations.get(keyIter);
 			for(int i=0;i<movieRecommendations.size()&&i<3;i++) {
 				finalRecommendations.add(movieRecommendations.get(i));
 			}

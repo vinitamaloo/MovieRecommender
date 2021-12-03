@@ -22,7 +22,7 @@ public class Main {
 		Services services = new Services();
 		services.getMovieDetails("100");
 		services.getPopularMovies();
-		System.out.println(services.getMovieRecommendationsFromOtherUsers(2));
+		services.getMovieRecommendationsFromOtherUsers(services.getMovieRecommendationsFromOtherUsers(2));
     	contentBasedFiltering();
 		System.out.println("\n\n\n\nCCCCOOOOOOLLLLLLABBBBBBBBBBBBBBBBB\n\n\n");
     }
