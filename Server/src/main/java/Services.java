@@ -156,24 +156,35 @@ public class Services {
 
 
         QueryExecution qexec = QueryExecutionFactory.sparqlService(serviceEndPoint, queryString);
-
         ResultSet results = qexec.execSelect();
+
 		Movie movie = new Movie();
+		List<Cast> casts = new ArrayList<>();
+
 		ObjectMapper mapper = new ObjectMapper();
         List<QuerySolution> solutions = ResultSetFormatter.toList(results);
+		boolean dataUnset = true;
         for(QuerySolution sol : solutions) {
-            System.out.println(sol.toString());
-			movie.setMovie_id(sol.getLiteral("movie_id").toString());
-			movie.setCast_character(sol.getLiteral("cast_character").toString());
-			movie.setCast_name(sol.getLiteral("cast_name").toString());
-			movie.setGenre(mapper.readValue(sol.getLiteral("genre").toString(),
-							new TypeReference<List<Genre>>(){}));
-			movie.setOriginal_title(sol.getLiteral("original_title").toString());
-			movie.setOverview(sol.getLiteral("overview").toString());
-			movie.setRelease_date(sol.getLiteral("release_date").toString());
-			break;
+			if (dataUnset) {
+				movie.setMovie_id(sol.getLiteral("movie_id").getInt());
+
+				String genre = sol.getLiteral("genre").toString();
+				genre = genre.replace('\'', '\"');
+				movie.setGenre(mapper.readValue(genre, new TypeReference<List<Genre>>(){}));
+				movie.setOriginal_title(sol.getLiteral("original_title").toString());
+				movie.setOverview(sol.getLiteral("overview").toString());
+				movie.setRelease_date(sol.getLiteral("release_date").getInt());
+			}
+
+			Cast cast = new Cast(sol.getLiteral("cast_name").toString(),
+					          sol.getLiteral("cast_character").toString());
+			casts.add(cast);
+
+			dataUnset = false;
         }
 
+		movie.setCast(casts);
+		System.out.println(movie.toString());
         return movie;
     }
 

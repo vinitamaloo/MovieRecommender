@@ -1,37 +1,30 @@
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Movie {
 
-    private String movie_id;
-    private String cast_name;
-    private String cast_character;
+    private Integer movie_id;
+    private List<Cast> cast;
     private String overview;
     private String original_title;
-    private String release_date;
+    private Integer release_date;
     private List<Genre> genre;
 
-    public String getMovie_id() {
+    public Integer getMovie_id() {
         return movie_id;
     }
 
-    public void setMovie_id(String movie_id) {
+    public void setMovie_id(Integer movie_id) {
         this.movie_id = movie_id;
     }
 
-    public String getCast_name() {
-        return cast_name;
+    public List<Cast> getCast() {
+        return cast;
     }
 
-    public void setCast_name(String cast_name) {
-        this.cast_name = cast_name;
-    }
-
-    public String getCast_character() {
-        return cast_character;
-    }
-
-    public void setCast_character(String cast_character) {
-        this.cast_character = cast_character;
+    public void setCast(List<Cast> cast) {
+        this.cast = cast;
     }
 
     public String getOverview() {
@@ -50,11 +43,11 @@ public class Movie {
         this.original_title = original_title;
     }
 
-    public String getRelease_date() {
+    public Integer getRelease_date() {
         return release_date;
     }
 
-    public void setRelease_date(String release_date) {
+    public void setRelease_date(Integer release_date) {
         this.release_date = release_date;
     }
 
@@ -64,5 +57,17 @@ public class Movie {
 
     public void setGenre(List<Genre> genre) {
         this.genre = genre;
+    }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "movie_id=" + movie_id +
+                ", cast=" + cast +
+                ", overview='" + overview + '\'' +
+                ", original_title='" + original_title + '\'' +
+                ", release_date=" + release_date +
+                ", genre=" + genre +
+                '}';
     }
 }

@@ -17,7 +17,9 @@ public class Main {
 //		System.setProperty("java.net.preferIPv4Stack", "true");
 //		SpringApplication.run(Main.class, args);
 		Services services = new Services();
+		System.out.println("Movie details");
 		services.getMovieDetails("100");
+		System.out.println("###");
 		services.getPopularMovies();
 		services.getMovieRecommendationsFromOtherUsers(services.getMovieRecommendationsFromOtherUsers(2));
     	ContentBasedFiltering.contentBasedFiltering();
