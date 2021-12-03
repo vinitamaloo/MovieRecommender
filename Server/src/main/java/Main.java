@@ -3,10 +3,13 @@ import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.io.IOException;
 
+//@EnableAutoConfiguration
 @SpringBootApplication
 public class Main {
 	public static String serviceEndPoint = "http://localhost:3030/cast/query"; 
@@ -18,7 +21,7 @@ public class Main {
 //			SpringApplication.run(Main.class, args);
 //		} catch (Exception e) {
 //			e.printStackTrace();
-//		}
+		//}
 
 		Services services = new Services();
 		System.out.println("Movie details");
