@@ -44,6 +44,9 @@ public class Main {
        	
        	loadTest(queryString);  
     }
+
+	
+	
 	
     
 	public static void loadTest(String query) {
