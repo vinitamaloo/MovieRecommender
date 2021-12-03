@@ -1,6 +1,7 @@
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,9 +25,8 @@ public class RestApis {
     }
 
     @PostMapping("/get_movie_details/{movie_id}")
-    public List<Movie> getMovieDetails(@PathVariable String movie_id) {
-        List<Movie> movies = services.getMovieDetails(movie_id);
-        return movies;
+    public Movie getMovieDetails(@PathVariable String movie_id) throws IOException {
+        return services.getMovieDetails(movie_id);
     }
 
 }

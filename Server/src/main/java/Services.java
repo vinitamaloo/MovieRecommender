@@ -1,6 +1,9 @@
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.jena.query.*;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +14,7 @@ public class Services {
     public static String serviceEndPoint = "http://ec2-18-205-117-22.compute-1.amazonaws.com:3030/movies";
     public static String temp_serviceEndPoint = "http://ec2-18-205-117-22.compute-1.amazonaws.com:3030/rating";
 
-    public List<String> getMovieRecommendationsFromOtherUsers(List<String> movieId){
+    public List<String> getMovieRecommendationsFromOtherUsers(List<String> movieId) throws IOException {
         if(movieId.size()==0)
         return null;
         String movieIdString=createMyCustomQuery(movieId);
@@ -120,8 +123,7 @@ public class Services {
 	}
 
 
-    public List<Movie> getMovieDetails(String movieId)
-    {
+    public Movie getMovieDetails(String movieId) throws IOException {
         String queryString = "\n PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
                 +"\n PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
                 +"\n PREFIX owl: <http://www.w3.org/2002/07/owl#>"
@@ -156,14 +158,23 @@ public class Services {
         QueryExecution qexec = QueryExecutionFactory.sparqlService(serviceEndPoint, queryString);
 
         ResultSet results = qexec.execSelect();
-       // ResultSetFormatter.out(System.out, results);
-        //ResultSetFormatter.outputAsJSON();
+		Movie movie = new Movie();
+		ObjectMapper mapper = new ObjectMapper();
         List<QuerySolution> solutions = ResultSetFormatter.toList(results);
         for(QuerySolution sol : solutions) {
             System.out.println(sol.toString());
+			movie.setMovie_id(sol.getLiteral("movie_id").toString());
+			movie.setCast_character(sol.getLiteral("cast_character").toString());
+			movie.setCast_name(sol.getLiteral("cast_name").toString());
+			movie.setGenre(mapper.readValue(sol.getLiteral("genre").toString(),
+							new TypeReference<List<Genre>>(){}));
+			movie.setOriginal_title(sol.getLiteral("original_title").toString());
+			movie.setOverview(sol.getLiteral("overview").toString());
+			movie.setRelease_date(sol.getLiteral("release_date").toString());
+			break;
         }
 
-        return null;
+        return movie;
     }
 
     public List<Movie> getPopularMovies()
