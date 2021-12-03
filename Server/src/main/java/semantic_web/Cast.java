@@ -1,3 +1,5 @@
+package semantic_web;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -28,7 +30,7 @@ public class Cast {
 
     @Override
     public String toString() {
-        return "Cast{" +
+        return "semantic_web.Cast{" +
                 "cast_name='" + cast_name + '\'' +
                 ", cast_character='" + cast_character + '\'' +
                 '}';

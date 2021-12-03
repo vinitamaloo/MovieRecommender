@@ -1,5 +1,5 @@
 # MovieRecommender
-Movie Recommender system for SER531
+semantic_web.Movie Recommender system for SER531
 
 Contributer
 Harshita Jain

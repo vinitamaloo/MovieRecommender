@@ -1,3 +1,5 @@
+package semantic_web;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -13,7 +15,7 @@ public class Genre {
 
     @Override
     public String toString() {
-        return "Genre{" +
+        return "semantic_web.Genre{" +
                 ", name='" + name + '\'' +
                 '}';
     }
