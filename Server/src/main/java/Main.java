@@ -22,33 +22,11 @@ public class Main {
 		Services services = new Services();
 		services.getMovieDetails("100");
 		services.getPopularMovies();
+
 		services.getMovieRecommendationsFromOtherUsers(services.getMovieRecommendationsFromOtherUsers(2));
-    	contentBasedFiltering();
-		System.out.println("\n\n\n\nCCCCOOOOOOLLLLLLABBBBBBBBBBBBBBBBB\n\n\n");
+    	ContentBasedFiltering.contentBasedFiltering();
     }
 
-    public static void contentBasedFiltering() 
-    {
-    	String queryString = "\n PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
-       		 +"\n PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
-       			+"\n PREFIX owl: <http://www.w3.org/2002/07/owl#>"
-       			+"\n PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>"
-       			+"\n SELECT  ?movieId"
-       			+ "\n WHERE {"
-       			  +"\n ?subject <http://www.semanticweb.org/ontologies/2021/10/untitled-ontology-53#userid> " + user + "."
-       			  + "\n ?subject <http://www.semanticweb.org/ontologies/2021/10/untitled-ontology-53#has_rated> ?obj . "
-       			  + "\n ?obj <http://www.semanticweb.org/ontologies/2021/10/untitled-ontology-53#rating> ?rating."
-       			  + "\n FILTER(?rating > 3.5)"
-       			  + "\n ?obj <http://www.semanticweb.org/ontologies/2021/10/untitled-ontology-53#movieid> ?movieId ."
-       			+"\n }";
-       	
-       	loadTest(queryString);  
-    }
-
-	
-	
-	
-    
 	public static void loadTest(String query) {
 		
 		 QueryExecution qexec = QueryExecutionFactory.sparqlService(serviceEndPoint,query);	
