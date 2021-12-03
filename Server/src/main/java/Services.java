@@ -36,7 +36,7 @@ public class Services {
 		+"\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
 		+"\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
 		+"\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>"
-		+"\nPREFIX use: <http://www.semanticweb.org/ontologies/2021/10/untitled-ontology-53#>"
+		+"\nPREFIX use: <http://ec2-18-205-117-22.compute-1.amazonaws.com:3030/rating>"
 		+"\nSelect DISTINCT ?movieid3 ?userid2"
 		+"\n	WHERE{"
 		+"\n	  ?user rdf:type use:User."
