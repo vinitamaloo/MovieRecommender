@@ -174,6 +174,8 @@ public class Services {
 				movie.setOriginal_title(sol.getLiteral("original_title").toString());
 				movie.setOverview(sol.getLiteral("overview").toString());
 				movie.setRelease_date(sol.getLiteral("release_date").getInt());
+				movie.setVote_average(sol.getLiteral("vote_average").getDouble());
+				movie.setOriginal_language(sol.getLiteral("original_language").toString());
 			}
 
 			Cast cast = new Cast(sol.getLiteral("cast_name").toString(),
