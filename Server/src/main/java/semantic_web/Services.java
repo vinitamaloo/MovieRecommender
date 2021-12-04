@@ -17,14 +17,15 @@ public class Services {
     public static String serviceEndPoint = "http://ec2-18-205-117-22.compute-1.amazonaws.com:3030/movies";
     public static String temp_serviceEndPoint = "http://ec2-52-205-254-172.compute-1.amazonaws.com:3030/rating";
 
-    public List<Movie> getMovieRecommendationsFromOtherUsers(List<String> movieId) throws Exception {
+    public List<Movie> getMovieRecommendationsFromOtherUsers2(List<String> movieId) throws Exception {
         if(movieId.size()==0)
         return null;
         String movieIdString=createMyCustomQuery(movieId);
 		List<Movie> result=new ArrayList<>();
-		for(String iter:movieId){
-			result.add(getMovieDetails2(iter));
-		}
+		 //for(String iter:movieId){
+		 //	result.add(getMovieDetails(iter));
+		// }
+		result=getMovieDetails2(movieIdString);
         return result;
     }
     private String createMyCustomQuery(List<String> movieId) {
@@ -33,7 +34,7 @@ public class Services {
         return queryAddition;
         int i=1;
         while(i<movieId.size()){
-            queryAddition+=" || ?movie_id = "+movieId.get(i);
+            queryAddition+=" || ?movie_id = "+movieId.get(i++);
         }
         return queryAddition;
     }
@@ -121,7 +122,7 @@ public class Services {
 		return count;
 	}
     
-	public Movie getMovieDetails2(String movieId) throws Exception {
+	public List<Movie> getMovieDetails2(String movieId) throws Exception {
         String queryString = "\n PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
                 +"\n PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
                 +"\n PREFIX owl: <http://www.w3.org/2002/07/owl#>"
@@ -151,14 +152,15 @@ public class Services {
         QueryExecution qexec = QueryExecutionFactory.sparqlService(serviceEndPoint, queryString);
         ResultSet results = qexec.execSelect();
 
-		Movie movie = new Movie();
+		
 
 
 		ObjectMapper mapper = new ObjectMapper();
         List<QuerySolution> solutions = ResultSetFormatter.toList(results);
-		boolean dataUnset = true;
+		List<Movie> result=new ArrayList<>();
+		System.out.println("reached");
         for(QuerySolution sol : solutions) {
-			if (dataUnset) {
+				Movie movie = new Movie();
 				movie.setMovie_id(sol.getLiteral("movie_id").getInt());
 
 				String genre = sol.getLiteral("genre").toString();
@@ -168,14 +170,12 @@ public class Services {
 				movie.setOverview(sol.getLiteral("overview").toString());
 				movie.setRelease_date(sol.getLiteral("release_date").getInt());
 				System.out.println(movie.getRelease_date());
-			}
 
-
-			dataUnset = false;
+			result.add(movie);
         }
 
 		//System.out.println(movie.toString());
-        return movie;
+        return result;
     }
 
     public Movie getMovieDetails(String movieId) throws Exception {
