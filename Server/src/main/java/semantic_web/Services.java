@@ -3,12 +3,16 @@ package semantic_web;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.jena.query.*;
+import org.apache.jena.sparql.function.library.date;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.text.DateFormat.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Service
 public class Services {
@@ -16,7 +20,7 @@ public class Services {
     public static String serviceEndPoint = "http://ec2-18-205-117-22.compute-1.amazonaws.com:3030/movies";
     public static String temp_serviceEndPoint = "http://ec2-52-205-254-172.compute-1.amazonaws.com:3030/rating";
 
-    public List<Movie> getMovieRecommendationsFromOtherUsers(List<String> movieId) throws IOException {
+    public List<Movie> getMovieRecommendationsFromOtherUsers(List<String> movieId) throws Exception {
         if(movieId.size()==0)
         return null;
         String movieIdString=createMyCustomQuery(movieId);
@@ -128,7 +132,7 @@ public class Services {
 	}
 
 
-    public Movie getMovieDetails(String movieId) throws IOException {
+    public Movie getMovieDetails(String movieId) throws Exception {
         String queryString = "\n PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
                 +"\n PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
                 +"\n PREFIX owl: <http://www.w3.org/2002/07/owl#>"
@@ -196,7 +200,7 @@ public class Services {
         return movie;
     }
 
-    public List<Movie> getPopularMovies()  throws IOException
+    public List<Movie> getPopularMovies()  throws Exception
     {
         String queryString = "\n PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
                 +"\n PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
@@ -241,8 +245,11 @@ public class Services {
 				movie.setRelease_date(sol.getLiteral("release_date").getInt());
 				movie.setOriginal_language(sol.getLiteral("language").toString());
 				movie.setVote_average(sol.getLiteral("vote_average").getDouble());
-				lstofmovie.add(movie);
+
+				Date date = new SimpleDateFormat("D").parse(sol.getLiteral("release_date").toString());
+				movie.setRelease(date);
 				System.out.println(movie);
+				lstofmovie.add(movie);
 		}
 		
         return lstofmovie;

@@ -1,5 +1,6 @@
 package semantic_web;
 
+import java.util.Date;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -14,6 +15,16 @@ public class Movie {
     private List<Genre> genre;
     private String original_language;
     private Double vote_average;
+    private Date release;
+
+    
+    public Date getRelease() {
+        return release;
+    }
+
+    public void setRelease(Date release) {
+        this.release = release;
+    }
 
     public Integer getMovie_id() {
         return movie_id;

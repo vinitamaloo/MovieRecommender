@@ -17,13 +17,13 @@ public class Main {
 	public static String serviceEndPoint = "http://localhost:3030/cast/query"; 
 	public static String user= "2";
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		SpringApplication.run(Main.class, args);
 
 		Services services = new Services();
 		services.getMovieDetails("100");
 		services.getPopularMovies();
-		//System.out.println(services.getMovieRecommendationsFromOtherUsers(2));
+		System.out.println(services.getMovieRecommendationsFromOtherUsers(2));
 		List<Movie> result=services.getMovieRecommendationsFromOtherUsers(services.getMovieRecommendationsFromOtherUsers("2"));
 		for(Movie omovi:result){
 			System.out.println(omovi);
