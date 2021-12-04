@@ -8,7 +8,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.io.IOException;
 import java.util.List;
 
 @EnableAutoConfiguration
@@ -17,7 +16,7 @@ public class Main {
 	public static String serviceEndPoint = "http://localhost:3030/cast/query"; 
 	public static String user= "2";
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		SpringApplication.run(Main.class, args);
 
 		Services services = new Services();

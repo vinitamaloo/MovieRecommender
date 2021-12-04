@@ -15,17 +15,17 @@ public class RestApis {
     private Services services;
 
     @GetMapping("/get_popular_movies")
-    public List<Movie> getPopularMovies() throws IOException {
+    public List<Movie> getPopularMovies() throws Exception {
         return services.getPopularMovies();
     }
 
     @GetMapping("/get_recommendation_based_on_other_users/{user_id}")
-    public List<Movie> getRecommendationByUser(@PathVariable String user_id) throws IOException {
+    public List<Movie> getRecommendationByUser(@PathVariable String user_id) throws Exception {
         return services.getMovieRecommendationsFromOtherUsers(services.getMovieRecommendationsFromOtherUsers(user_id));
     }
 
     @GetMapping("/get_movie_details/{movie_id}")
-    public Movie getMovieDetails(@PathVariable String movie_id) throws IOException {
+    public Movie getMovieDetails(@PathVariable String movie_id) throws Exception {
         return services.getMovieDetails(movie_id);
     }
 }
