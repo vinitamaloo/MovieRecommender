@@ -149,7 +149,6 @@ public class Services {
                 + "\n FILTER(?movie_id = "+movieId+")."
                     +"\n }"            
                     +"\n SERVICE cast:sparql {"
-                        +"\n ?movie rdf:type ds1:Movie."
                         +"\n ?movie ds1:movieid ?movie_id."
                         +"\n ?movie ds1:has_cast ?cast."
                         +"\n ?cast ds1:cast_name ?cast_name."
@@ -189,7 +188,7 @@ public class Services {
         }
 
 		movie.setCast(casts);
-		System.out.println(movie.toString());
+		//System.out.println(movie.toString());
         return movie;
     }
 
@@ -244,7 +243,22 @@ public class Services {
 				System.out.println(movie);
 				lstofmovie.add(movie);
 		}
-		
         return lstofmovie;
+    }
+    
+    public List<Movie> getRecommendationByUsersRating(String userId) throws Exception
+    {
+    	List<String> listOfMovieIDs = ContentBasedFiltering.contentBasedFiltering(userId);
+    	
+    	List<Movie> movieDetails = new ArrayList<Movie>();
+    	if(listOfMovieIDs == null)
+    		return null;
+    	
+    	for(String movieIds: listOfMovieIDs)
+    	{
+    		movieDetails.add(getMovieDetails(movieIds));
+    	}
+    	//System.out.println(movieDetails.toString());
+    	return movieDetails;
     }
 }

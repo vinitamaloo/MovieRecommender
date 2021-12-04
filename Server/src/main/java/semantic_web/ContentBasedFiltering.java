@@ -21,7 +21,7 @@ public class ContentBasedFiltering {
 	public static List<String> genres = new ArrayList<String>();
 	public static List<String> movieIds = new ArrayList<String>();
 	
-	public static void contentBasedFiltering() {
+	public static List<String> contentBasedFiltering(String userId) {
 		String serviceEndPoint = "http://ec2-18-205-117-22.compute-1.amazonaws.com:3030/movies";
 		String queryString = "\r\n"
 				+ "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\n"
@@ -34,7 +34,7 @@ public class ContentBasedFiltering {
 				+ "WHERE {\r\n"
 				+ "  SERVICE rating:sparql\r\n"
 				+ "  {\r\n"
-				+ "    ?subject <http://www.semanticweb.org/ontologies/2021/10/untitled-ontology-53#userid> 2 .\r\n"
+				+ "    ?subject <http://www.semanticweb.org/ontologies/2021/10/untitled-ontology-53#userid> "+userId +" .\r\n"
 				+ "    ?subject <http://www.semanticweb.org/ontologies/2021/10/untitled-ontology-53#has_rated> ?obj .\r\n"
 				+ "    ?obj <http://www.semanticweb.org/ontologies/2021/10/untitled-ontology-53#rating> ?rating.\r\n"
 				+ "    FILTER(?rating > 3.5)\r\n"
@@ -48,15 +48,15 @@ public class ContentBasedFiltering {
 				+ "  }\r\n"
 				+ "}\r\n"
 				+ "ORDER BY(?movieId)\r\n"
-				+ "LIMIT 25";
+				+ "LIMIT 15";
 
 		giveTop3Genre(queryString, serviceEndPoint);
 
-		getTop3GenreMoviesNotWatchedByUser();
+		return getTop3GenreMoviesNotWatchedByUser();
 
 	}
 
-	private static void getTop3GenreMoviesNotWatchedByUser() {
+	private static List<String> getTop3GenreMoviesNotWatchedByUser() {
 
 		String serviceEndPoint = "http://ec2-18-205-117-22.compute-1.amazonaws.com:3030/movies";
 		String moviesWatcedByUser = "";
@@ -83,8 +83,8 @@ public class ContentBasedFiltering {
 				+ "  ?movies <http://www.semanticweb.org/iti/ontologies/2021/10/untitled-ontology-17#movie_id> ?movieId.\r\n"
 				+ "  FILTER (?movieId NOT IN (" + moviesWatcedByUser + "))\r\n"
 				+ "  ?movies <http://www.semanticweb.org/iti/ontologies/2021/10/untitled-ontology-17#original_title> ?movieTitle.\r\n"
-				+ "}\r\n" + "LIMIT 25";
-		loadTest(query, serviceEndPoint);
+				+ "}\r\n" + "LIMIT 10";
+		return loadTest(query, serviceEndPoint);
 	}
 
 	public static void giveTop3Genre(String query, String serviceEndPoint) {
@@ -130,18 +130,17 @@ public class ContentBasedFiltering {
 		movieIds = movieId;
 	}
 
-	public static void loadTest(String query, String serviceEndPoint) {
+	public static List<String> loadTest(String query, String serviceEndPoint) {
 
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(serviceEndPoint, query);
 
 		ResultSet results = qexec.execSelect();
-		ResultSetFormatter.out(System.out, results);
-		// System.out.println( ResultSetFormatter.asText(results)
-
-		while (results.hasNext()) {
-			System.out.println(results.next().toString());
+		List<String> movieId = new ArrayList<String>();
+		List<QuerySolution> li = ResultSetFormatter.toList(results);
+		for (QuerySolution querySolution : li) {
+			movieId.add(querySolution.get("?movieId").asNode().getLiteralValue().toString());
 		}
-
+		return movieId;
 	}
 
 }
