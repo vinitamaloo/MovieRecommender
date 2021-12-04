@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Card} from "react-bootstrap";
 import "./match-card.css";
 
-export default function MatchCard( {title, language, picture, subtitle, rating}) {
+export default function MatchCard( {title, language, picture, subtitle, rating, movieId}) {
     return(
         <Card className="card">
             <Card.Body>

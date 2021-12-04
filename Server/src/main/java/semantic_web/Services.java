@@ -3,14 +3,11 @@ package semantic_web;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.jena.query.*;
-import org.apache.jena.sparql.function.library.date;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.text.DateFormat.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -179,18 +176,20 @@ public class Services {
 				movie.setOriginal_title(sol.getLiteral("original_title").toString());
 				movie.setOverview(sol.getLiteral("overview").toString());
 				movie.setRelease_date(sol.getLiteral("release_date").getInt());
+				System.out.println(movie.getRelease_date());
 			}
 
 			Cast cast = new Cast(sol.getLiteral("cast_name").toString(),
 					          sol.getLiteral("cast_character").toString());
+
 			casts.add(cast);
 
 			dataUnset = false;
         }
 
-		System.out.println(movie);
 		movie.setCast(casts);
-        return movie;
+		System.out.println(movie);
+		return movie;
     }
 
     public List<Movie> getPopularMovies()  throws Exception

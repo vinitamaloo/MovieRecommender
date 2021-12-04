@@ -20,6 +20,8 @@ public class Main {
 		SpringApplication.run(Main.class, args);
 
 		Services services = new Services();
+		services.getMovieDetails("100");
+
 		List<String> movieIds = services.getMovieRecommendationsFromOtherUsers("2");
 		List<Movie> result=services.getMovieRecommendationsFromOtherUsers(movieIds);
 		for(Movie movie:result){

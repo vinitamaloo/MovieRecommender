@@ -51,7 +51,8 @@ export default function Homepage() {
                         <MatchCard title={movie.original_title} language={movie.original_language}
                          picture={img}
                          subtitle="Movie is outstanding"
-                         rating={movie.vote_average}/>
+                         rating={movie.vote_average}
+                         movieId = {movie.movie_id} />
                     </Col>
                 ))}
                 </Row>
@@ -61,12 +62,13 @@ export default function Homepage() {
                  </div>
 
                   <Row>
-                     {data.map((movie) => (
+                     {otherUserMovies.map((movie) => (
                          <Col>
                              <MatchCard title={movie.original_title} language={movie.original_language}
                               picture={img}
                               subtitle="Movie is outstanding"
-                              rating={movie.vote_average}/>
+                              rating={movie.vote_average}
+                              movieId = {movie.movie_id} />
                          </Col>
                      ))}
                   </Row>
@@ -76,12 +78,13 @@ export default function Homepage() {
                 </div>
 
                 <Row>
-                     {data.map((movie) => (
+                     {usersMovie.map((movie) => (
                          <Col>
                              <MatchCard title={movie.original_title} language={movie.original_language}
                               picture={img}
                               subtitle="Movie is outstanding"
-                              rating={movie.vote_average}/>
+                              rating={movie.vote_average}
+                              movieId = {movie.movie_id} />
                          </Col>
                      ))}
                  </Row>
