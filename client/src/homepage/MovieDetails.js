@@ -8,6 +8,7 @@ export default function MovieDetails() {
   let params = useParams();
   const category = params.movieId
   const [getmovieDetails, setMovieDetails] = useState([{}])
+  const [cast, setCast] = useState()
 
   useEffect(() => {
     let mounted = true;
@@ -21,9 +22,19 @@ export default function MovieDetails() {
     return () => mounted = false;
   }, [])
 
+    function get_cast(cast) {
+        var str;
+
+        cast.map((d)=> (
+            str += d.cast_name+" : "+d.cast_character
+        ))
+
+        console.log(str)
+        setCast(str)
+    }
+
   return (
       <div className="form-container">
-        <span className="close-btn">×</span>
         <div className="form-content-left">
           <img
             className="form-img"
@@ -51,7 +62,7 @@ export default function MovieDetails() {
             className="form-input"
             type="text"
             name="cast"
-            value={getmovieDetails.cast}
+            value={cast}
             /*value={getmovieDetails.cast.map((movie) => (
               <Col>
                   <title={movie.original_title} language={movie.original_language}
@@ -85,7 +96,7 @@ export default function MovieDetails() {
             type="text"
             name="release_date"
             
-            value={getmovieDetails.release_date}
+            value={new Date(getmovieDetails.release)}
           
           />
           
@@ -120,9 +131,9 @@ export default function MovieDetails() {
           <input
             className="form-input"
             type="text"
-            name={getmovieDetails.vote_average}
+            name="votes"
            
-            value=""
+            value={getmovieDetails.vote_average}
           
           />
           
