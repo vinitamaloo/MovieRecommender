@@ -40,7 +40,7 @@ export default function MovieDetails() {
             type="text"
             name="original_title"
             
-            value="Star Wars"
+            value={getmovieDetails.original_title}
             
           />
         
@@ -51,8 +51,16 @@ export default function MovieDetails() {
             className="form-input"
             type="text"
             name="cast"
-           
-            value="Mark Hamill ,Luke Skywalker, Harrison Ford, Han Solo"
+            value={getmovieDetails.cast}
+            /*value={getmovieDetails.cast.map((movie) => (
+              <Col>
+                  <title={movie.original_title} language={movie.original_language}
+                   picture={img}
+                   subtitle="Movie is outstanding"
+                   rating={movie.vote_average}
+                   movieId = {movie.movie_id} />
+              </Col>
+          ))}*/
           
           />
          
@@ -64,11 +72,8 @@ export default function MovieDetails() {
             type="text"
             name="overview"
             
-            value="Princess Leia is captured and held hostage by the evil Imperial 
-            forces in their effort to take over the galactic Empire. 
-            Venturesome Luke Skywalker and dashing captain Han Solo team together with
-             the loveable robot duo R2-D2 and C-3PO to rescue the beautiful princess and 
-             restore peace and justice in the Empire."
+            value={getmovieDetails.overview}
+
          
           />
          
@@ -80,7 +85,7 @@ export default function MovieDetails() {
             type="text"
             name="release_date"
             
-            value="10/11/1977"
+            value={getmovieDetails.release_date}
           
           />
           
@@ -92,7 +97,8 @@ export default function MovieDetails() {
             type="text"
             name="genre"
            
-            value=" Adventure, Action,Science Fiction"
+            value={getmovieDetails.genre}
+
           
           />
           
@@ -104,7 +110,7 @@ export default function MovieDetails() {
             type="text"
             name="original_language"
             
-            value=""
+            value={getmovieDetails.original_language}
           
           />
           
@@ -114,7 +120,7 @@ export default function MovieDetails() {
           <input
             className="form-input"
             type="text"
-            name="d.vote_average"
+            name={getmovieDetails.vote_average}
            
             value=""
           
