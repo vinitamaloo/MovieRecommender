@@ -84,10 +84,6 @@ public class Services {
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(temp_serviceEndPoint,query);	
 		 ResultSet results = qexec.execSelect();
 		String s= ResultSetFormatter.asText(results);
-	//	System.out.println(s.substring(0,24));
-	//System.out.println(s.substring(74,77));
-	//	System.out.println(s.substring(85,88));
-//		System.out.println(s);
 		int left=74;
 		int leftOfId=85;
 		String key=s.substring(82,85);
@@ -96,17 +92,14 @@ public class Services {
 		{
 			int right=0;
 	            right=leftOfId+getNumberOfDigits(leftOfId,s);
-	            //System.out.print(s.substring(leftOfId,right));
 				key=s.substring(leftOfId,right);
 				leftOfId+=24;
 				right=left+getNumberOfDigits(left,s);
-				//System.out.println(" <--------    "+s.substring(left, right));
 				List<String> temp=eachUserWithTheir3Recommendations.getOrDefault(key, new ArrayList<>());
                 temp.add(s.substring(left, right));
 				eachUserWithTheir3Recommendations.put(key,temp);
 				left+=24;
 		}
-		//System.out.println(eachUserWithTheir3Recommendations.keySet());
 		List<String> finalRecommendations=new ArrayList<>();
 		for(String keyIter:eachUserWithTheir3Recommendations.keySet()) {
 			List<String> movieRecommendations=eachUserWithTheir3Recommendations.get(keyIter);
