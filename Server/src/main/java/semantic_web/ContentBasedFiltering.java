@@ -48,7 +48,7 @@ public class ContentBasedFiltering {
 				+ "  }\r\n"
 				+ "}\r\n"
 				+ "ORDER BY(?movieId)\r\n"
-				+ "LIMIT 15";
+				+ "LIMIT 9";
 
 		giveTop3Genre(queryString, serviceEndPoint);
 

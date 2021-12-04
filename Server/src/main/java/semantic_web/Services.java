@@ -76,7 +76,7 @@ public class Services {
 						+"\nFILTER (?userid2 IN (?userid)  && ?movieid3 NOT IN (?movieid) && ?rating = 5)."
 		  
 						+"\n}"
-						+"\nLIMIT 100";
+						+"\nLIMIT 9";
        return getMovieRecommendationsFromOtherUsersSupport(query);
        	 
     }
@@ -312,7 +312,6 @@ public class Services {
     	{
     		movieDetails.add(getMovieDetails(movieIds));
     	}
-    	//System.out.println(movieDetails.toString());
     	return movieDetails;
     }
 }
