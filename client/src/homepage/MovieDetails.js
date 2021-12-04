@@ -8,7 +8,6 @@ export default function MovieDetails() {
   let params = useParams();
   const category = params.movieId
   const [getmovieDetails, setMovieDetails] = useState([{}])
-  const [cast, setCast] = useState()
 
   useEffect(() => {
     let mounted = true;
@@ -25,12 +24,29 @@ export default function MovieDetails() {
     function get_cast(cast) {
         var str;
 
+        if (!cast)
+            return " "
+
         cast.map((d)=> (
             str += d.cast_name+" : "+d.cast_character
         ))
 
-        console.log(str)
-        setCast(str)
+        str = str.substr(9, str.length)
+        return str
+    }
+
+    function get_genre(genre) {
+        var str;
+
+        if (!genre)
+            return " "
+
+        genre.map((d)=> (
+            str += d.name+" "
+        ))
+
+        str = str.substr(9, str.length)
+        return str
     }
 
   return (
@@ -50,10 +66,7 @@ export default function MovieDetails() {
             className="form-input"
             type="text"
             name="original_title"
-            
-            value={getmovieDetails.original_title}
-            
-          />
+            value={getmovieDetails.original_title}/>
         
         </div>
         <div className="form-inputs">
@@ -62,19 +75,7 @@ export default function MovieDetails() {
             className="form-input"
             type="text"
             name="cast"
-            value={cast}
-            /*value={getmovieDetails.cast.map((movie) => (
-              <Col>
-                  <title={movie.original_title} language={movie.original_language}
-                   picture={img}
-                   subtitle="Movie is outstanding"
-                   rating={movie.vote_average}
-                   movieId = {movie.movie_id} />
-              </Col>
-          ))}*/
-          
-          />
-         
+            value={get_cast(getmovieDetails.cast)} />
         </div>
         <div className="form-inputs">
           <label className="form-label">Overview</label>
@@ -82,11 +83,7 @@ export default function MovieDetails() {
             className="form-input"
             type="text"
             name="overview"
-            
-            value={getmovieDetails.overview}
-
-         
-          />
+            value={getmovieDetails.overview} />
          
         </div>
         <div className="form-inputs">
@@ -95,10 +92,7 @@ export default function MovieDetails() {
             className="form-input"
             type="text"
             name="release_date"
-            
-            value={new Date(getmovieDetails.release)}
-          
-          />
+            value={new Date(getmovieDetails.release)} />
           
         </div>
         <div className="form-inputs">
@@ -107,11 +101,7 @@ export default function MovieDetails() {
             className="form-input"
             type="text"
             name="genre"
-           
-            value={getmovieDetails.genre}
-
-          
-          />
+            value={get_genre(getmovieDetails.genre)} />
           
         </div>
         <div className="form-inputs">
