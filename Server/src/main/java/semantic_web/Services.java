@@ -23,6 +23,7 @@ public class Services {
         String movieIdString=createMyCustomQuery(movieId);
 		List<Movie> result=new ArrayList<>();
 		for(String iter:movieId){
+			System.out.println(iter);
 			result.add(getMovieDetails2(iter));
 		}
         return result;
@@ -43,7 +44,7 @@ public class Services {
 		+"\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
 		+"\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>"
 		+"\nPREFIX use: <http://www.semanticweb.org/ontologies/2021/10/untitled-ontology-53#>"
-		+"\nSelect DISTINCT ?movieid3 ?userid2"
+		+"\nSelect DISTINCT ?movieid3"
 		+"\n	WHERE{"
 		+"\n	  ?user rdf:type use:User."
 		+"\n	  ?user use:userid ?userid2."
@@ -83,32 +84,42 @@ public class Services {
 
 	public List<String> getMovieRecommendationsFromOtherUsersSupport(String query){
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(temp_serviceEndPoint,query);	
-		 ResultSet results = qexec.execSelect();
-		String s= ResultSetFormatter.asText(results);
-		int left=74;
-		int leftOfId=85;
-		String key=s.substring(82,85);
-		HashMap<String,List<String>> eachUserWithTheir3Recommendations=new HashMap<>();
-		while(left<s.length()-50)
-		{
-			int right=0;
-	            right=leftOfId+getNumberOfDigits(leftOfId,s);
-				key=s.substring(leftOfId,right);
-				leftOfId+=24;
-				right=left+getNumberOfDigits(left,s);
-				List<String> temp=eachUserWithTheir3Recommendations.getOrDefault(key, new ArrayList<>());
-                temp.add(s.substring(left, right));
-				eachUserWithTheir3Recommendations.put(key,temp);
-				left+=24;
+		ResultSet results = qexec.execSelect();
+		List<String> lstofmovie = new ArrayList<>();
+		ObjectMapper mapper = new ObjectMapper();
+
+        List<QuerySolution> solutions = ResultSetFormatter.toList(results);
+		for(QuerySolution sol : solutions) {
+			lstofmovie.add((sol.getLiteral("?movieid3").toString()));	
 		}
-		List<String> finalRecommendations=new ArrayList<>();
-		for(String keyIter:eachUserWithTheir3Recommendations.keySet()) {
-			List<String> movieRecommendations=eachUserWithTheir3Recommendations.get(keyIter);
-			for(int i=0;i<movieRecommendations.size()&& i<3;i++) {
-				finalRecommendations.add(movieRecommendations.get(i));
-			}
-		}
-		return finalRecommendations;
+
+		return lstofmovie;
+		//  ResultSet results = qexec.execSelect();
+		// String s= ResultSetFormatter.asText(results);
+		// int left=74;
+		// int leftOfId=85;
+		// String key=s.substring(82,85);
+		// HashMap<String,List<String>> eachUserWithTheir3Recommendations=new HashMap<>();
+		// while(left<s.length()-50)
+		// {
+		// 	int right=0;
+	    //         right=leftOfId+getNumberOfDigits(leftOfId,s);
+		// 		key=s.substring(leftOfId,right);
+		// 		leftOfId+=24;
+		// 		right=left+getNumberOfDigits(left,s);
+		// 		List<String> temp=eachUserWithTheir3Recommendations.getOrDefault(key, new ArrayList<>());
+        //         temp.add(s.substring(left, right));
+		// 		eachUserWithTheir3Recommendations.put(key,temp);
+		// 		left+=24;
+		// }
+		// List<String> finalRecommendations=new ArrayList<>();
+		// for(String keyIter:eachUserWithTheir3Recommendations.keySet()) {
+		// 	List<String> movieRecommendations=eachUserWithTheir3Recommendations.get(keyIter);
+		// 	for(int i=0;i<movieRecommendations.size()&& i<3;i++) {
+		// 		finalRecommendations.add(movieRecommendations.get(i));
+		// 	}
+		// }
+		// return finalRecommendations;
 }
 	
     
@@ -167,7 +178,7 @@ public class Services {
 				movie.setOriginal_title(sol.getLiteral("original_title").toString());
 				movie.setOverview(sol.getLiteral("overview").toString());
 				movie.setRelease_date(sol.getLiteral("release_date").getInt());
-				System.out.println(movie.getRelease_date());
+				//System.out.println(movie.getRelease_date());
 			}
 
 
@@ -231,7 +242,7 @@ public class Services {
 				movie.setOriginal_title(sol.getLiteral("original_title").toString());
 				movie.setOverview(sol.getLiteral("overview").toString());
 				movie.setRelease_date(sol.getLiteral("release_date").getInt());
-				System.out.println(movie.getRelease_date());
+				//System.out.println(movie.getRelease_date());
 			}
 
 			Cast cast = new Cast(sol.getLiteral("cast_name").toString(),
