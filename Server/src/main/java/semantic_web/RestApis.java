@@ -28,7 +28,7 @@ public class RestApis {
             return null;
         }
 
-        List<Movie> movies = services.getMovieRecommendationsFromOtherUsers(movieIds);
+        List<Movie> movies = services.getMovieRecommendationsFromOtherUsers2(movieIds);
 
         if (movies == null) {
             System.out.println("movies null");
