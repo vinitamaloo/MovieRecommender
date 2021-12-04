@@ -21,9 +21,7 @@ public class Main {
 		SpringApplication.run(Main.class, args);
 
 		Services services = new Services();
-		System.out.println("semantic_web.Movie details");
 		services.getMovieDetails("100");
-		System.out.println("###");
 		services.getPopularMovies();
 		//System.out.println(services.getMovieRecommendationsFromOtherUsers(2));
 		List<Movie> result=services.getMovieRecommendationsFromOtherUsers(services.getMovieRecommendationsFromOtherUsers("2"));

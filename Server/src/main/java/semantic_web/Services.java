@@ -182,8 +182,6 @@ public class Services {
 				movie.setOriginal_title(sol.getLiteral("original_title").toString());
 				movie.setOverview(sol.getLiteral("overview").toString());
 				movie.setRelease_date(sol.getLiteral("release_date").getInt());
-				movie.setVote_average(sol.getLiteral("vote_average").getDouble());
-				movie.setOriginal_language(sol.getLiteral("original_language").toString());
 			}
 
 			Cast cast = new Cast(sol.getLiteral("cast_name").toString(),
@@ -198,7 +196,7 @@ public class Services {
         return movie;
     }
 
-    public List<Movie> getPopularMovies()
+    public List<Movie> getPopularMovies()  throws IOException
     {
         String queryString = "\n PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
                 +"\n PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
@@ -207,7 +205,7 @@ public class Services {
                 +"\n PREFIX movie: <http://www.semanticweb.org/iti/ontologies/2021/10/untitled-ontology-17#>"
                 +"\n PREFIX mo: <http://purl.org/ontology/mo/>"
                 +"\n PREFIX ds1: <http://ec2-18-205-117-22.compute-1.amazonaws.com:3030/movies/>"
-                +"\n SELECT ?title ?id ?overview ?language ?popularity"
+                +"\n SELECT ?title ?id ?overview ?release_date ?language ?popularity ?vote_average ?genre"
                 +"\n WHERE {"
                 +"\n SERVICE ds1:sparql {"
                 +"\n ?movie rdf:type movie:Movies."
@@ -215,20 +213,37 @@ public class Services {
                 +"\n ?movie movie:original_title ?title."
                 +"\n ?movie movie:overview ?overview."
                 +"\n ?movie movie:original_language ?language."
+				+"\n ?movie movie:vote_average ?vote_average."
                 +"\n ?movie movie:release_date ?release_date."
+				+"\n ?movie movie:genres ?genre."
                 +"\n ?movie movie:popularity ?popularity."
                     +"\n }"
                     +"\n }"
                         +"\n ORDER BY DESC (?release_date) (?popularity)"
-                        + "\n LIMIT 3";
+                        + "\n LIMIT 9";
 
         QueryExecution qexec = QueryExecutionFactory.sparqlService(serviceEndPoint, queryString);
 
         ResultSet results = qexec.execSelect();
+		Movie movie = new Movie();
+		List<Movie> lstofmovie = new ArrayList<>();
+		ObjectMapper mapper = new ObjectMapper();
+
         List<QuerySolution> solutions = ResultSetFormatter.toList(results);
-        for(QuerySolution sol : solutions) {
-            System.out.println(sol.toString());
-        }
-        return null;
+		for(QuerySolution sol : solutions) {
+				movie.setMovie_id(sol.getLiteral("id").getInt());
+
+				String genre = sol.getLiteral("genre").toString();
+				genre = genre.replace('\'', '\"');
+				movie.setGenre(mapper.readValue(genre, new TypeReference<List<Genre>>(){}));
+				movie.setOriginal_title(sol.getLiteral("title").toString());
+				movie.setOverview(sol.getLiteral("overview").toString());
+				movie.setRelease_date(sol.getLiteral("release_date").getInt());
+				movie.setOriginal_language(sol.getLiteral("language").toString());
+				movie.setVote_average(sol.getLiteral("vote_average").getDouble());
+				lstofmovie.add(movie);
+		}
+		System.out.println(lstofmovie);
+        return lstofmovie;
     }
 }
