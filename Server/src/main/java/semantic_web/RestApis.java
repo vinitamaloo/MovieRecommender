@@ -32,7 +32,7 @@ public class RestApis {
     //It will return all the movies rated by user greater than 3.5 and among these movies give top 25 movies 
     //of most watched genres
     @GetMapping("/get_recommendation_by_Users_rating/{user_id}")
-    public List<Movie> getRecommendationByUsersRating(@PathVariable String userId) throws Exception {
-        return services.getRecommendationByUsersRating(userId);
+    public List<Movie> getRecommendationByUsersRating(@PathVariable String user_id) throws Exception {
+        return services.getRecommendationByUsersRating(user_id);
     }
 }

@@ -29,12 +29,20 @@ export default function Homepage() {
            }
          })
 
-         get_recommendation_based_on_other_users(userId)
-         .then(items => {
-           if(mounted) {
-             setOtherUserMovies(items.data)
-           }
-         })
+//         get_recommendation_based_on_other_users(userId)
+//         .then(items => {
+//           if(mounted) {
+//             setOtherUserMovies(items.data)
+//           }
+//         })
+
+         get_recommendation_by_user(userId)
+          .then(items => {
+            if(mounted) {
+              setUsersMovie(items.data)
+            }
+          })
+
        return () => mounted = false;
      }, [])
 
@@ -50,7 +58,7 @@ export default function Homepage() {
                     <Col>
                         <MatchCard title={movie.original_title} language={movie.original_language}
                          picture={img}
-                         subtitle="Movie is outstanding"
+                         subtitle={movie.overview}
                          rating={movie.vote_average}
                          movieId = {movie.movie_id} />
                     </Col>
@@ -65,8 +73,8 @@ export default function Homepage() {
                      {otherUserMovies.map((movie) => (
                          <Col>
                              <MatchCard title={movie.original_title} language={movie.original_language}
-                              picture={img}
-                              subtitle="Movie is outstanding"
+                              picture={img3}
+                              subtitle={movie.overview}
                               rating={movie.vote_average}
                               movieId = {movie.movie_id} />
                          </Col>
@@ -81,8 +89,8 @@ export default function Homepage() {
                      {usersMovie.map((movie) => (
                          <Col>
                              <MatchCard title={movie.original_title} language={movie.original_language}
-                              picture={img}
-                              subtitle="Movie is outstanding"
+                              picture={img2}
+                              subtitle={movie.overview}
                               rating={movie.vote_average}
                               movieId = {movie.movie_id} />
                          </Col>
