@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.IOException;
+import java.util.List;
 
 @SpringBootApplication
 public class Main {
@@ -25,8 +26,12 @@ public class Main {
 		services.getMovieDetails("100");
 		System.out.println("###");
 		services.getPopularMovies();
-		services.getMovieRecommendationsFromOtherUsers(services.getMovieRecommendationsFromOtherUsers(2));
-    	ContentBasedFiltering.contentBasedFiltering();
+		//System.out.println(services.getMovieRecommendationsFromOtherUsers(2));
+		List<Movie> result=services.getMovieRecommendationsFromOtherUsers(services.getMovieRecommendationsFromOtherUsers(2));
+		for(Movie omovi:result){
+			System.out.println(omovi);
+		}
+    	//ContentBasedFiltering.contentBasedFiltering();
     }
 
 	public static void loadTest(String query) {

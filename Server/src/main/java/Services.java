@@ -12,14 +12,17 @@ import java.util.List;
 public class Services {
 
     public static String serviceEndPoint = "http://ec2-18-205-117-22.compute-1.amazonaws.com:3030/movies";
-    public static String temp_serviceEndPoint = "http://ec2-18-205-117-22.compute-1.amazonaws.com:3030/rating";
+    public static String temp_serviceEndPoint = "http://ec2-52-205-254-172.compute-1.amazonaws.com:3030/rating";
 
-    public List<String> getMovieRecommendationsFromOtherUsers(List<String> movieId) throws IOException {
+    public List<Movie> getMovieRecommendationsFromOtherUsers(List<String> movieId) throws IOException {
         if(movieId.size()==0)
         return null;
         String movieIdString=createMyCustomQuery(movieId);
-        getMovieDetails(movieIdString);
-        return null;
+		List<Movie> result=new ArrayList<>();
+		for(String iter:movieId){
+			result.add(getMovieDetails(iter));
+		}
+        return result;
     }
     private String createMyCustomQuery(List<String> movieId) {
         String queryAddition=movieId.get(0);
@@ -36,7 +39,7 @@ public class Services {
 		+"\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
 		+"\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
 		+"\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>"
-		+"\nPREFIX use: <http://ec2-18-205-117-22.compute-1.amazonaws.com:3030/rating>"
+		+"\nPREFIX use: <http://www.semanticweb.org/ontologies/2021/10/untitled-ontology-53#>"
 		+"\nSelect DISTINCT ?movieid3 ?userid2"
 		+"\n	WHERE{"
 		+"\n	  ?user rdf:type use:User."
@@ -64,7 +67,7 @@ public class Services {
 						+"\n	  }"
 						+"\n	FILTER (?movieid2 IN (?movieid) && ?userid != 2 && ?rating = 5)."
 						+"\n  }"
-						+"\n  LIMIT 5"
+						+"\n  LIMIT 3"
 						+"\n  }"
 		  
 						+"\nFILTER (?userid2 IN (?userid)  && ?movieid3 NOT IN (?movieid) && ?rating = 5)."
@@ -105,7 +108,7 @@ public class Services {
 		List<String> finalRecommendations=new ArrayList<>();
 		for(String keyIter:eachUserWithTheir3Recommendations.keySet()) {
 			List<String> movieRecommendations=eachUserWithTheir3Recommendations.get(keyIter);
-			for(int i=0;i<movieRecommendations.size()&&i<3;i++) {
+			for(int i=0;i<movieRecommendations.size()&&i<1;i++) {
 				finalRecommendations.add(movieRecommendations.get(i));
 			}
 		}
