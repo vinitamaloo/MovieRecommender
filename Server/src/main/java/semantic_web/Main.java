@@ -14,17 +14,16 @@ import java.util.List;
 @SpringBootApplication
 public class Main {
 	public static void main(String[] args) throws Exception {
-		SpringApplication.run(Main.class, args);
+				SpringApplication.run(Main.class, args);
 
 		Services services = new Services();
-//		services.getMovieDetails("100");
-//		services.getPopularMovies();
-		//System.out.println(services.getMovieRecommendationsFromOtherUsers(2));
-//		List<Movie> result=services.getMovieRecommendationsFromOtherUsers(services.getMovieRecommendationsFromOtherUsers("2"));
-//		for(Movie omovi:result){
-//			System.out.println(omovi);
-//		}
-		
+		System.out.println(services.getMovieDetails("100"));
+		services.getPopularMovies();
+		System.out.println(services.getMovieRecommendationsFromOtherUsers("4"));
+		for(String as:services.getMovieRecommendationsFromOtherUsers("4"))
+		    System.out.println(services.getMovieDetails(as));
+		List<Movie> ans=services.getMovieRecommendationsFromOtherUsers(services.getMovieRecommendationsFromOtherUsers("2"));
+		System.out.println(ans.size());
 		services.getRecommendationByUsersRating("1");
     }
 
