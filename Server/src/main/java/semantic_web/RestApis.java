@@ -21,7 +21,24 @@ public class RestApis {
 
     @GetMapping("/get_recommendation_based_on_other_users/{user_id}")
     public List<Movie> getRecommendationByUser(@PathVariable String user_id) throws Exception {
-        return services.getMovieRecommendationsFromOtherUsers(services.getMovieRecommendationsFromOtherUsers(user_id));
+        List<String> movieIds = services.getMovieRecommendationsFromOtherUsers(user_id);
+        System.out.println(movieIds);
+        if (movieIds == null) {
+            System.out.println("movie ids null");
+            return null;
+        }
+
+        List<Movie> movies = services.getMovieRecommendationsFromOtherUsers(movieIds);
+
+        if (movies == null) {
+            System.out.println("movies null");
+            return null;
+        }
+
+        for (Movie mov : movies) {
+            System.out.println(mov);
+        }
+        return movies;
     }
 
     @GetMapping("/get_movie_details/{movie_id}")
@@ -33,6 +50,7 @@ public class RestApis {
     //of most watched genres
     @GetMapping("/get_recommendation_by_Users_rating/{user_id}")
     public List<Movie> getRecommendationByUsersRating(@PathVariable String user_id) throws Exception {
+        System.out.println("****getRecommendationByUsersRating****");
         return services.getRecommendationByUsersRating(user_id);
     }
 }

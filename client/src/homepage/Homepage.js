@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { Row, Col, Card, Container} from "react-bootstrap";
-import {get_popular_movies, get_recommendation_by_user, get_recommendation_based_on_other_users } from "../api/services";
+import {get_popular_movies, get_recommendation_by_user, get_recommendation } from "../api/services";
 import "./homepage.css";
 import MatchCard from "./match-card";
 import img from '../Images/780-87-101P.jpg';
@@ -14,10 +14,9 @@ import img6 from '../Images/lionking-minimalist-movie-poster-prints.jpg';
 
 export default function Homepage() {
     const [userId, setUserId] = useState(localStorage.getItem('userId'));
-    const [data, setTable] = useState([{}]);
-    const [flag, setFlag] = useState(true);
     const [popularMovies, setPopularMovies] = useState([{}])
     const [otherUserMovies, setOtherUserMovies] = useState([{}])
+    const [otherUserMoviesss, setOtherUserMoviesss] = useState([{}])
     const [usersMovie, setUsersMovie] = useState([{}])
 
     useEffect(() => {
@@ -29,19 +28,19 @@ export default function Homepage() {
            }
          })
 
-//         get_recommendation_based_on_other_users(userId)
-//         .then(items => {
-//           if(mounted) {
-//             setOtherUserMovies(items.data)
-//           }
-//         })
+        get_recommendation(userId)
+         .then(items => {
+           if(mounted) {
+             setOtherUserMovies(items.data)
+           }
+       })
 
-         get_recommendation_by_user(userId)
+       get_recommendation_by_user(userId)
           .then(items => {
             if(mounted) {
               setUsersMovie(items.data)
             }
-          })
+       })
 
        return () => mounted = false;
      }, [])
@@ -70,7 +69,7 @@ export default function Homepage() {
                  </div>
 
                   <Row>
-                     {otherUserMovies.map((movie) => (
+                     {otherUserMoviesss.map((movie) => (
                          <Col>
                              <MatchCard title={movie.original_title} language={movie.original_language}
                               picture={img3}
