@@ -22,7 +22,13 @@ public class RestApis {
     @GetMapping("/get_recommendation_based_on_other_users/{user_id}")
     public List<Movie> getRecommendationByUser(@PathVariable String user_id) throws Exception {
         List<String> movieIds = services.getMovieRecommendationsFromOtherUsers(user_id);
-        List<Movie> movies = services.getMovieRecommendationsFromOtherUsers(movieIds);
+        System.out.println(movieIds);
+        if (movieIds == null) {
+            System.out.println("movie ids null");
+            return null;
+        }
+
+        List<Movie> movies = services.getMovieRecommendationsFromOtherUsers2(movieIds);
 
         if (movies == null) {
             System.out.println("movies null");

@@ -6,7 +6,6 @@ import org.apache.jena.query.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,28 +16,22 @@ public class Services {
     public static String serviceEndPoint = "http://ec2-18-205-117-22.compute-1.amazonaws.com:3030/movies";
     public static String temp_serviceEndPoint = "http://ec2-52-205-254-172.compute-1.amazonaws.com:3030/rating";
 
-    public List<Movie> getMovieRecommendationsFromOtherUsers(List<String> movieId) throws Exception {
+    public List<Movie> getMovieRecommendationsFromOtherUsers2(List<Integer> movieId) throws Exception {
         if(movieId.size()==0)
         return null;
-        String movieIdString=createMyCustomQuery(movieId);
 		List<Movie> result=new ArrayList<>();
-		for(String iter:movieId){
+		for(Integer iter:movieId){
 			System.out.println(iter);
-			result.add(getMovieDetails2(iter));
+			result.add(getMovieDetails(String.valueOf(iter)));
 		}
+		 //for(String iter:movieId){
+		 //	result.add(getMovieDetails(iter));
+		// }
+		System.out.print(result);
         return result;
     }
-    private String createMyCustomQuery(List<String> movieId) {
-        String queryAddition=movieId.get(0);
-        if(movieId.size()==1)
-        return queryAddition;
-        int i=1;
-        while(i<movieId.size()){
-            queryAddition+=" || ?movie_id = "+movieId.get(i);
-        }
-        return queryAddition;
-    }
-    public List<String> getMovieRecommendationsFromOtherUsers(String userid){
+
+    public List<Integer> getMovieRecommendationsFromOtherUsers(String userid){
     	String query = "PREFIX owl: <http://www.w3.org/2002/07/owl#>"
 		+"\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
 		+"\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
@@ -77,22 +70,22 @@ public class Services {
 						+"\nFILTER (?userid2 IN (?userid)  && ?movieid3 NOT IN (?movieid) && ?rating = 5)."
 		  
 						+"\n}"
-						+"\nLIMIT 3";
+						+"\nLIMIT 9";
        return getMovieRecommendationsFromOtherUsersSupport(query);
        	 
     }
 
-	public List<String> getMovieRecommendationsFromOtherUsersSupport(String query){
+	public List<Integer> getMovieRecommendationsFromOtherUsersSupport(String query){
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(temp_serviceEndPoint,query);	
 		ResultSet results = qexec.execSelect();
-		List<String> lstofmovie = new ArrayList<>();
-		ObjectMapper mapper = new ObjectMapper();
+		List<Integer> lstofmovie = new ArrayList<>();
 
         List<QuerySolution> solutions = ResultSetFormatter.toList(results);
 		for(QuerySolution sol : solutions) {
-			lstofmovie.add((sol.getLiteral("?movieid3").toString()));	
+			lstofmovie.add((sol.getLiteral("?movieid3").getInt()));	
 		}
-
+		System.out.println("inside");
+		System.out.println(lstofmovie);
 		return lstofmovie;
 		//  ResultSet results = qexec.execSelect();
 		// String s= ResultSetFormatter.asText(results);
@@ -121,73 +114,6 @@ public class Services {
 		// }
 		// return finalRecommendations;
 }
-	
-    
-	private int getNumberOfDigits(int left, String s) {
-		int count=0;
-		while(Character.isDigit(s.charAt(left))) {
-			++count;
-			++left;
-		}
-		return count;
-	}
-    
-	public Movie getMovieDetails2(String movieId) throws Exception {
-        String queryString = "\n PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
-                +"\n PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
-                +"\n PREFIX owl: <http://www.w3.org/2002/07/owl#>"
-                +"\n PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>"
-                +"\n PREFIX ds1: <http://www.semanticweb.org/ontologies/2021/10/untitled-ontology-52#>"
-                +"\n PREFIX ds2: <http://www.semanticweb.org/iti/ontologies/2021/10/untitled-ontology-17#>"
-                +"\n PREFIX movie: <http://ec2-18-205-117-22.compute-1.amazonaws.com:3030/movies/>"
-                +"\n PREFIX cast: <http://ec2-34-207-70-20.compute-1.amazonaws.com:3030/cast/>"
-                +"\n SELECT ?movie_id ?cast_name ?cast_character ?original_title ?overview ?release_date ?genre"
-				+"\n ?vote_average ?original_language"
-                +"\n WHERE {"    
-                +"\n SERVICE movie:sparql {"
-                +"\n ?movies rdf:type ds2:Movies."
-                +"\n ?movies ds2:movie_id ?movie_id."
-                +"\n ?movies ds2:original_title ?original_title."
-                +"\n ?movies ds2:genres ?genre."
-                +"\n ?movies ds2:overview ?overview."
-                +"\n ?movies ds2:vote_average ?vote_average."
-                +"\n ?movies ds2:release_date ?release_date."
-                +"\n ?movies ds2:original_language ?original_language."
-                + "\n FILTER(?movie_id = "+movieId+")."
-                    +"\n }"            
-                    
-                +"\n }";
-
-
-        QueryExecution qexec = QueryExecutionFactory.sparqlService(serviceEndPoint, queryString);
-        ResultSet results = qexec.execSelect();
-
-		Movie movie = new Movie();
-
-
-		ObjectMapper mapper = new ObjectMapper();
-        List<QuerySolution> solutions = ResultSetFormatter.toList(results);
-		boolean dataUnset = true;
-        for(QuerySolution sol : solutions) {
-			if (dataUnset) {
-				movie.setMovie_id(sol.getLiteral("movie_id").getInt());
-
-				String genre = sol.getLiteral("genre").toString();
-				genre = genre.replace('\'', '\"');
-				movie.setGenre(mapper.readValue(genre, new TypeReference<List<Genre>>(){}));
-				movie.setOriginal_title(sol.getLiteral("original_title").toString());
-				movie.setOverview(sol.getLiteral("overview").toString());
-				movie.setRelease_date(sol.getLiteral("release_date").getInt());
-				//System.out.println(movie.getRelease_date());
-			}
-
-
-			dataUnset = false;
-        }
-
-		//System.out.println(movie.toString());
-        return movie;
-    }
 
     public Movie getMovieDetails(String movieId) throws Exception {
         String queryString = "\n PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
@@ -254,7 +180,7 @@ public class Services {
         }
 
 		movie.setCast(casts);
-		//System.out.println(movie.toString());
+		System.out.println(movie);
         return movie;
     }
 
