@@ -69,7 +69,7 @@ export default function Homepage() {
                  </div>
 
                   <Row>
-                     {otherUserMoviesss.map((movie) => (
+                     {otherUserMovies.map((movie) => (
                          <Col>
                              <MatchCard title={movie.original_title} language={movie.original_language}
                               picture={img3}
