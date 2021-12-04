@@ -30,7 +30,7 @@ public class Cast {
 
     @Override
     public String toString() {
-        return "semantic_web.Cast{" +
+        return "Cast{" +
                 "cast_name='" + cast_name + '\'' +
                 ", cast_character='" + cast_character + '\'' +
                 '}';

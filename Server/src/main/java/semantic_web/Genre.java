@@ -15,7 +15,7 @@ public class Genre {
 
     @Override
     public String toString() {
-        return "semantic_web.Genre{" +
+        return "Genre{" +
                 ", name='" + name + '\'' +
                 '}';
     }

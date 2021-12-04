@@ -76,12 +76,12 @@ public class Movie {
 
     @Override
     public String toString() {
-        return "semantic_web.Movie{" +
+        return "Movie{" +
                 "movie_id=" + movie_id +
                 ", cast=" + cast +
                 ", overview='" + overview + '\'' +
                 ", original_title='" + original_title + '\'' +
-                ", release_date=" + release_date +
+                ", release_date=" + release +
                 ", genre=" + genre +
                 ", original_language='" + original_language + '\'' +
                 ", vote_average=" + vote_average +
@@ -101,6 +101,6 @@ public class Movie {
     }
 
     public void setVote_average(Double vote_average) {
-        this.vote_average = vote_average;
+        this.vote_average = Double.parseDouble(String.format("%.1f", vote_average));
     }
 }

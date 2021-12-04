@@ -23,7 +23,7 @@ public class Main {
 		Services services = new Services();
 		services.getMovieDetails("100");
 		services.getPopularMovies();
-		System.out.println(services.getMovieRecommendationsFromOtherUsers(2));
+		//System.out.println(services.getMovieRecommendationsFromOtherUsers(2));
 		List<Movie> result=services.getMovieRecommendationsFromOtherUsers(services.getMovieRecommendationsFromOtherUsers("2"));
 		for(Movie omovi:result){
 			System.out.println(omovi);
