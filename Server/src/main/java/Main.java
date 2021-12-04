@@ -21,9 +21,7 @@ public class Main {
 //		}
 
 		Services services = new Services();
-		System.out.println("Movie details");
 		services.getMovieDetails("100");
-		System.out.println("###");
 		services.getPopularMovies();
 		services.getMovieRecommendationsFromOtherUsers(services.getMovieRecommendationsFromOtherUsers(2));
     	ContentBasedFiltering.contentBasedFiltering();
