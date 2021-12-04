@@ -54,16 +54,16 @@ public class Services {
 						+"\n	?user use:has_rated ?rated."
 						+"\n	?rated use:movieid ?movieid."
 						+"\n	?rated use:rating ?rating"
-						+"\n	FILTER(?userid3 = "+userid+" && ?rating = 5 )."
+						+"\n	FILTER(?userid3 = "+userid+" && ?rating >=4 )."
 						+"\n	}"
 						+"\n	LIMIT 1"
 						+"\n	  }"
-						+"\n	FILTER (?movieid2 IN (?movieid) && ?userid != 2 && ?rating = 5)."
+						+"\n	FILTER (?movieid2 IN (?movieid) && ?userid != 2 && ?rating >= 4)."
 						+"\n  }"
 						+"\n  LIMIT 1"
 						+"\n  }"
 		  
-						+"\nFILTER (?userid2 IN (?userid)  && ?movieid3 NOT IN (?movieid) && ?rating = 5)."
+						+"\nFILTER (?userid2 IN (?userid)  && ?movieid3 NOT IN (?movieid) && ?rating >= 4)."
 		  
 						+"\n}"
 						+"\nLIMIT 9";
@@ -137,6 +137,10 @@ public class Services {
 				movie.setOriginal_title(sol.getLiteral("original_title").toString());
 				movie.setOverview(sol.getLiteral("overview").toString());
 				movie.setRelease_date(sol.getLiteral("release_date").getInt());
+				movie.setVote_average(sol.getLiteral("vote_average").getDouble());
+				movie.setOriginal_language(sol.getLiteral("original_language").toString());
+				Date date = new SimpleDateFormat("D").parse(sol.getLiteral("release_date").toString());
+				movie.setRelease(date);
 				//System.out.println(movie.getRelease_date());
 			}
 
