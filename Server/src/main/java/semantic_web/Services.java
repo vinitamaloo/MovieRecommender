@@ -67,17 +67,17 @@ public class Services {
 						+"\n	?rated use:rating ?rating"
 						+"\n	FILTER(?userid3 = "+userid+" && ?rating = 5 )."
 						+"\n	}"
-						+"\n	LIMIT 5"
+						+"\n	LIMIT 1"
 						+"\n	  }"
 						+"\n	FILTER (?movieid2 IN (?movieid) && ?userid != 2 && ?rating = 5)."
 						+"\n  }"
-						+"\n  LIMIT 5"
+						+"\n  LIMIT 1"
 						+"\n  }"
 		  
 						+"\nFILTER (?userid2 IN (?userid)  && ?movieid3 NOT IN (?movieid) && ?rating = 5)."
 		  
 						+"\n}"
-						+"\nLIMIT 5";
+						+"\nLIMIT 3";
        return getMovieRecommendationsFromOtherUsersSupport(query);
        	 
     }
@@ -105,7 +105,7 @@ public class Services {
 		List<String> finalRecommendations=new ArrayList<>();
 		for(String keyIter:eachUserWithTheir3Recommendations.keySet()) {
 			List<String> movieRecommendations=eachUserWithTheir3Recommendations.get(keyIter);
-			for(int i=0;i<movieRecommendations.size()&&i<9;i++) {
+			for(int i=0;i<movieRecommendations.size()&& i<3;i++) {
 				finalRecommendations.add(movieRecommendations.get(i));
 			}
 		}

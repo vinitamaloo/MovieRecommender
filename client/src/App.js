@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { Routes } from 'react-router-dom';
 import Login from "./login/Login";
 import Homepage from "./homepage/Homepage";
+import MovieDetails from "./homepage/MovieDetails";
 
 function App() {
  return (
@@ -13,7 +14,7 @@ function App() {
            <Routes>
              <Route exact path='/' element={<Login/>} />
              <Route exact path='/homepage' element={<Homepage/>} />
-             <Route exact path='/movie-details' element={<Homepage/>} />
+             <Route exact path='/movie-details' element={<MovieDetails/>} />
            </Routes>
      </div></Router>
    );
