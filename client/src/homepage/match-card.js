@@ -25,11 +25,7 @@ export default function MatchCard( {title, language, picture, subtitle, rating, 
                 <Card.Subtitle className="mb-2 text-muted">{truncate(subtitle, 50)}</Card.Subtitle>
                 <div className="cardLink">
                     <Card.Link>
-                        <Link to={
-                            {
-                                pathname: "/movie-details",
-                                state: {movie_id:movieId},
-                            }}>View More</Link>
+                        <Link to={{pathname: "/movie-details/"+movieId}}>View More</Link>
                     </Card.Link>
                 </div>
             </Card.Body>

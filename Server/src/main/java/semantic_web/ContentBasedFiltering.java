@@ -83,7 +83,7 @@ public class ContentBasedFiltering {
 				+ "  ?movies <http://www.semanticweb.org/iti/ontologies/2021/10/untitled-ontology-17#movie_id> ?movieId.\r\n"
 				+ "  FILTER (?movieId NOT IN (" + moviesWatcedByUser + "))\r\n"
 				+ "  ?movies <http://www.semanticweb.org/iti/ontologies/2021/10/untitled-ontology-17#original_title> ?movieTitle.\r\n"
-				+ "}\r\n" + "LIMIT 10";
+				+ "}\r\n" + "LIMIT 9";
 		return loadTest(query, serviceEndPoint);
 	}
 

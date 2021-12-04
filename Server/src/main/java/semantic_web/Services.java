@@ -54,16 +54,16 @@ public class Services {
 						+"\n	?user use:has_rated ?rated."
 						+"\n	?rated use:movieid ?movieid."
 						+"\n	?rated use:rating ?rating"
-						+"\n	FILTER(?userid3 = "+userid+" && ?rating >=4 )."
+						+"\n	FILTER(?userid3 = "+userid+" && ?rating > 3.5 )."
 						+"\n	}"
 						+"\n	LIMIT 1"
 						+"\n	  }"
-						+"\n	FILTER (?movieid2 IN (?movieid) && ?userid != 2 && ?rating >= 4)."
+						+"\n	FILTER (?movieid2 IN (?movieid) && ?userid !="+userid+" && ?rating > 3.5)."
 						+"\n  }"
 						+"\n  LIMIT 1"
 						+"\n  }"
 		  
-						+"\nFILTER (?userid2 IN (?userid)  && ?movieid3 NOT IN (?movieid) && ?rating >= 4)."
+						+"\nFILTER (?userid2 IN (?userid)  && ?movieid3 NOT IN (?movieid) && ?rating > 3.5)."
 		  
 						+"\n}"
 						+"\nLIMIT 9";
