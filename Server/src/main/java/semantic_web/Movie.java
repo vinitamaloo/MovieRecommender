@@ -1,3 +1,5 @@
+package semantic_web;
+
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -63,7 +65,7 @@ public class Movie {
 
     @Override
     public String toString() {
-        return "Movie{" +
+        return "semantic_web.Movie{" +
                 "movie_id=" + movie_id +
                 ", cast=" + cast +
                 ", overview='" + overview + '\'' +
