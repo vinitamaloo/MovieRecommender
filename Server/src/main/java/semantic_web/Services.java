@@ -66,11 +66,11 @@ public class Services {
 						+"\n	?rated use:rating ?rating"
 						+"\n	FILTER(?userid3 = "+userid+" && ?rating = 5 )."
 						+"\n	}"
-						+"\n	LIMIT 2"
+						+"\n	LIMIT 1"
 						+"\n	  }"
 						+"\n	FILTER (?movieid2 IN (?movieid) && ?userid != 2 && ?rating = 5)."
 						+"\n  }"
-						+"\n  LIMIT 3"
+						+"\n  LIMIT 1"
 						+"\n  }"
 		  
 						+"\nFILTER (?userid2 IN (?userid)  && ?movieid3 NOT IN (?movieid) && ?rating = 5)."
