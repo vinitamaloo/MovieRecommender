@@ -12,14 +12,17 @@ import java.util.List;
 public class Services {
 
     public static String serviceEndPoint = "http://ec2-18-205-117-22.compute-1.amazonaws.com:3030/movies";
-    public static String temp_serviceEndPoint = "http://ec2-18-205-117-22.compute-1.amazonaws.com:3030/rating";
+    public static String temp_serviceEndPoint = "http://ec2-52-205-254-172.compute-1.amazonaws.com:3030/rating";
 
-    public List<String> getMovieRecommendationsFromOtherUsers(List<String> movieId) throws IOException {
+    public List<Movie> getMovieRecommendationsFromOtherUsers(List<String> movieId) throws IOException {
         if(movieId.size()==0)
         return null;
         String movieIdString=createMyCustomQuery(movieId);
-        getMovieDetails(movieIdString);
-        return null;
+		List<Movie> result=new ArrayList<>();
+		for(String iter:movieId){
+			result.add(getMovieDetails(iter));
+		}
+        return result;
     }
     private String createMyCustomQuery(List<String> movieId) {
         String queryAddition=movieId.get(0);
@@ -64,7 +67,7 @@ public class Services {
 						+"\n	  }"
 						+"\n	FILTER (?movieid2 IN (?movieid) && ?userid != 2 && ?rating = 5)."
 						+"\n  }"
-						+"\n  LIMIT 5"
+						+"\n  LIMIT 3"
 						+"\n  }"
 		  
 						+"\nFILTER (?userid2 IN (?userid)  && ?movieid3 NOT IN (?movieid) && ?rating = 5)."
@@ -105,7 +108,7 @@ public class Services {
 		List<String> finalRecommendations=new ArrayList<>();
 		for(String keyIter:eachUserWithTheir3Recommendations.keySet()) {
 			List<String> movieRecommendations=eachUserWithTheir3Recommendations.get(keyIter);
-			for(int i=0;i<movieRecommendations.size()&&i<3;i++) {
+			for(int i=0;i<movieRecommendations.size()&&i<1;i++) {
 				finalRecommendations.add(movieRecommendations.get(i));
 			}
 		}
@@ -133,6 +136,7 @@ public class Services {
                 +"\n PREFIX movie: <http://ec2-18-205-117-22.compute-1.amazonaws.com:3030/movies/>"
                 +"\n PREFIX cast: <http://ec2-34-207-70-20.compute-1.amazonaws.com:3030/cast/>"
                 +"\n SELECT ?movie_id ?cast_name ?cast_character ?original_title ?overview ?release_date ?genre"
+				+"\n ?vote_average ?original_language"
                 +"\n WHERE {"    
                 +"\n SERVICE movie:sparql {"
                 +"\n ?movies rdf:type ds2:Movies."
@@ -140,7 +144,9 @@ public class Services {
                 +"\n ?movies ds2:original_title ?original_title."
                 +"\n ?movies ds2:genres ?genre."
                 +"\n ?movies ds2:overview ?overview."
+                +"\n ?movies ds2:vote_average ?vote_average."
                 +"\n ?movies ds2:release_date ?release_date."
+                +"\n ?movies ds2:original_language ?original_language."
                 + "\n FILTER(?movie_id = "+movieId+")."
                     +"\n }"            
                     +"\n SERVICE cast:sparql {"
