@@ -4,7 +4,7 @@ import "./match-card.css";
 
 export default function MatchCard( {title, language, picture, subtitle, rating, movieId}) {
     function truncate(str, n){
-      return str;
+      return str && str.substr(0, 100) ? str.substr(0, 130)+'...' : ''
     }
 
     function final_lang(language){

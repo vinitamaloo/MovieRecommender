@@ -23,7 +23,7 @@ public class Services {
         String movieIdString=createMyCustomQuery(movieId);
 		List<Movie> result=new ArrayList<>();
 		for(String iter:movieId){
-			result.add(getMovieDetails(iter));
+			result.add(getMovieDetails2(iter));
 		}
         return result;
     }
@@ -66,7 +66,7 @@ public class Services {
 						+"\n	?rated use:rating ?rating"
 						+"\n	FILTER(?userid3 = "+userid+" && ?rating = 5 )."
 						+"\n	}"
-						+"\n	LIMIT 1"
+						+"\n	LIMIT 2"
 						+"\n	  }"
 						+"\n	FILTER (?movieid2 IN (?movieid) && ?userid != 2 && ?rating = 5)."
 						+"\n  }"
@@ -104,7 +104,7 @@ public class Services {
 		List<String> finalRecommendations=new ArrayList<>();
 		for(String keyIter:eachUserWithTheir3Recommendations.keySet()) {
 			List<String> movieRecommendations=eachUserWithTheir3Recommendations.get(keyIter);
-			for(int i=0;i<movieRecommendations.size() && i < 3;i++) {
+			for(int i=0;i<movieRecommendations.size()&& i<3;i++) {
 				finalRecommendations.add(movieRecommendations.get(i));
 			}
 		}
@@ -120,7 +120,63 @@ public class Services {
 		}
 		return count;
 	}
+    
+	public Movie getMovieDetails2(String movieId) throws Exception {
+        String queryString = "\n PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
+                +"\n PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
+                +"\n PREFIX owl: <http://www.w3.org/2002/07/owl#>"
+                +"\n PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>"
+                +"\n PREFIX ds1: <http://www.semanticweb.org/ontologies/2021/10/untitled-ontology-52#>"
+                +"\n PREFIX ds2: <http://www.semanticweb.org/iti/ontologies/2021/10/untitled-ontology-17#>"
+                +"\n PREFIX movie: <http://ec2-18-205-117-22.compute-1.amazonaws.com:3030/movies/>"
+                +"\n PREFIX cast: <http://ec2-34-207-70-20.compute-1.amazonaws.com:3030/cast/>"
+                +"\n SELECT ?movie_id ?cast_name ?cast_character ?original_title ?overview ?release_date ?genre"
+				+"\n ?vote_average ?original_language"
+                +"\n WHERE {"    
+                +"\n SERVICE movie:sparql {"
+                +"\n ?movies rdf:type ds2:Movies."
+                +"\n ?movies ds2:movie_id ?movie_id."
+                +"\n ?movies ds2:original_title ?original_title."
+                +"\n ?movies ds2:genres ?genre."
+                +"\n ?movies ds2:overview ?overview."
+                +"\n ?movies ds2:vote_average ?vote_average."
+                +"\n ?movies ds2:release_date ?release_date."
+                +"\n ?movies ds2:original_language ?original_language."
+                + "\n FILTER(?movie_id = "+movieId+")."
+                    +"\n }"            
+                    
+                +"\n }";
 
+
+        QueryExecution qexec = QueryExecutionFactory.sparqlService(serviceEndPoint, queryString);
+        ResultSet results = qexec.execSelect();
+
+		Movie movie = new Movie();
+
+
+		ObjectMapper mapper = new ObjectMapper();
+        List<QuerySolution> solutions = ResultSetFormatter.toList(results);
+		boolean dataUnset = true;
+        for(QuerySolution sol : solutions) {
+			if (dataUnset) {
+				movie.setMovie_id(sol.getLiteral("movie_id").getInt());
+
+				String genre = sol.getLiteral("genre").toString();
+				genre = genre.replace('\'', '\"');
+				movie.setGenre(mapper.readValue(genre, new TypeReference<List<Genre>>(){}));
+				movie.setOriginal_title(sol.getLiteral("original_title").toString());
+				movie.setOverview(sol.getLiteral("overview").toString());
+				movie.setRelease_date(sol.getLiteral("release_date").getInt());
+				System.out.println(movie.getRelease_date());
+			}
+
+
+			dataUnset = false;
+        }
+
+		//System.out.println(movie.toString());
+        return movie;
+    }
 
     public Movie getMovieDetails(String movieId) throws Exception {
         String queryString = "\n PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
