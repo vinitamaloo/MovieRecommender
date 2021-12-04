@@ -225,12 +225,12 @@ public class Services {
         QueryExecution qexec = QueryExecutionFactory.sparqlService(serviceEndPoint, queryString);
 
         ResultSet results = qexec.execSelect();
-		Movie movie = new Movie();
 		List<Movie> lstofmovie = new ArrayList<>();
 		ObjectMapper mapper = new ObjectMapper();
 
         List<QuerySolution> solutions = ResultSetFormatter.toList(results);
 		for(QuerySolution sol : solutions) {
+				Movie movie = new Movie();
 				movie.setMovie_id(sol.getLiteral("id").getInt());
 
 				String genre = sol.getLiteral("genre").toString();
@@ -242,8 +242,9 @@ public class Services {
 				movie.setOriginal_language(sol.getLiteral("language").toString());
 				movie.setVote_average(sol.getLiteral("vote_average").getDouble());
 				lstofmovie.add(movie);
+				System.out.println(movie);
 		}
-		System.out.println(lstofmovie);
+		
         return lstofmovie;
     }
 }
