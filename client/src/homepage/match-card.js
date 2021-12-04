@@ -8,11 +8,17 @@ export default function MatchCard( {title, language, picture, subtitle, rating})
             <Card.Body>
                 <Card.Title className="title">{title}</Card.Title>
                 <img src={picture} className="image"/>
-                <Card.Text> {rating} stars </Card.Text>
-                <Card.Text> {language} </Card.Text>
+                <h6> Rating: {rating} </h6>
+                <h6> Language: {language} </h6>
                 <Card.Subtitle className="mb-2 text-muted">{subtitle}</Card.Subtitle>
                 <div className="cardLink">
-                    <Card.Link><Link to={"/movie-details"}>View More</Link></Card.Link>
+                    <Card.Link>
+                        <Link to={
+                            {
+                                pathname: "/movie-details",
+                                state: {title:title},
+                            }}>View More</Link>
+                    </Card.Link>
                 </div>
             </Card.Body>
         </Card>

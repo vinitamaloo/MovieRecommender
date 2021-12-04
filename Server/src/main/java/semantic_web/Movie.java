@@ -65,7 +65,7 @@ public class Movie {
 
     @Override
     public String toString() {
-        return "semantic_web.Movie{" +
+        return "Movie{" +
                 "movie_id=" + movie_id +
                 ", cast=" + cast +
                 ", overview='" + overview + '\'' +

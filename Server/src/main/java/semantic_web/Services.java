@@ -17,8 +17,8 @@ public class Services {
     public static String temp_serviceEndPoint = "http://ec2-52-205-254-172.compute-1.amazonaws.com:3030/rating";
 
     public List<Movie> getMovieRecommendationsFromOtherUsers(List<String> movieId) throws IOException {
-        if(movieId.size()==0)
-        return null;
+		if(movieId.size()==0)
+        	return null;
         String movieIdString=createMyCustomQuery(movieId);
 		List<Movie> result=new ArrayList<>();
 		for(String iter:movieId){
@@ -145,7 +145,7 @@ public class Services {
                 + "\n FILTER(?movie_id = "+movieId+")."
                     +"\n }"            
                     +"\n SERVICE cast:sparql {"
-                        +"\n ?movie rdf:type ds1:semantic_web.Movie."
+                        +"\n ?movie rdf:type ds1:Movie."
                         +"\n ?movie ds1:movieid ?movie_id."
                         +"\n ?movie ds1:has_cast ?cast."
                         +"\n ?cast ds1:cast_name ?cast_name."
@@ -184,8 +184,8 @@ public class Services {
 			dataUnset = false;
         }
 
+		System.out.println(movie);
 		movie.setCast(casts);
-		System.out.println(movie.toString());
         return movie;
     }
 
@@ -235,7 +235,6 @@ public class Services {
 				movie.setOriginal_language(sol.getLiteral("language").toString());
 				movie.setVote_average(sol.getLiteral("vote_average").getDouble());
 				lstofmovie.add(movie);
-				System.out.println(movie);
 		}
 		
         return lstofmovie;

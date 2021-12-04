@@ -21,13 +21,12 @@ public class Main {
 		SpringApplication.run(Main.class, args);
 
 		Services services = new Services();
-		services.getMovieDetails("100");
-		services.getPopularMovies();
-		//System.out.println(services.getMovieRecommendationsFromOtherUsers(2));
-		List<Movie> result=services.getMovieRecommendationsFromOtherUsers(services.getMovieRecommendationsFromOtherUsers("2"));
-		for(Movie omovi:result){
-			System.out.println(omovi);
+		List<String> movieIds = services.getMovieRecommendationsFromOtherUsers("2");
+		List<Movie> result=services.getMovieRecommendationsFromOtherUsers(movieIds);
+		for(Movie movie:result){
+			System.out.println(movie);
 		}
+
     	ContentBasedFiltering.contentBasedFiltering();
     }
 

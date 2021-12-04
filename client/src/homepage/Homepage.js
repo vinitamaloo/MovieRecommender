@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Card, Container} from "react-bootstrap";
 import {get_popular_movies, get_recommendation_by_user, get_recommendation_based_on_other_users } from "../api/services";
 import "./homepage.css";
@@ -14,16 +14,29 @@ import img6 from '../Images/lionking-minimalist-movie-poster-prints.jpg';
 
 export default function Homepage() {
     const [userId, setUserId] = useState(localStorage.getItem('userId'));
+    const [data, setTable] = useState([{}]);
+    const [flag, setFlag] = useState(true);
+    const [popularMovies, setPopularMovies] = useState([{}])
+    const [otherUserMovies, setOtherUserMovies] = useState([{}])
+    const [usersMovie, setUsersMovie] = useState([{}])
 
-    async function getDataFromServer() {
-        const user = {
-          "user_id": userId
-        }
+    useEffect(() => {
+       let mounted = true;
+       get_popular_movies()
+         .then(items => {
+           if(mounted) {
+             setPopularMovies(items.data)
+           }
+         })
 
-        const x = await get_popular_movies();
-        const y = await get_recommendation_by_user(user);
-        const z = await get_recommendation_based_on_other_users(user);
-    }
+         get_recommendation_based_on_other_users(userId)
+         .then(items => {
+           if(mounted) {
+             setOtherUserMovies(items.data)
+           }
+         })
+       return () => mounted = false;
+     }, [])
 
     return(
         <div style={{ marginTop: 60 }}>
@@ -31,76 +44,47 @@ export default function Homepage() {
                 <div className='heading'>
                     <h3>Based on popularity</h3>
                 </div>
+
                 <Row>
+                {popularMovies.map((movie) => (
                     <Col>
-                        <MatchCard title="Movie 1" language="English"
+                        <MatchCard title={movie.original_title} language={movie.original_language}
                          picture={img}
                          subtitle="Movie is outstanding"
-                         rating='4.5'/>
+                         rating={movie.vote_average}/>
                     </Col>
-                    <Col>
-                        <MatchCard title="Movie 2" language="English"
-                         picture={img1}
-                         subtitle="Movie is outstanding"
-                         rating='4.5'/>
-                    </Col>
-                    <Col>
-                       <MatchCard title="Movie 3" language="English"
-                         picture={img2}
-                         subtitle="Movie is outstanding"
-                         rating='4.5'/>
-                    </Col>
+                ))}
                 </Row>
 
                  <div className='heading'>
                     <h3>Based on your likes</h3>
                  </div>
 
-                 <Row>
-                    <Col>
-                        <MatchCard title="Movie 1" language="English"
-                         picture={img3}
-                         subtitle="Movie is outstanding"
-                         rating='4.5'/>
-                    </Col>
-                    <Col>
-                        <MatchCard title="Movie 3" language="English"
-                         picture={img4}
-                         subtitle="Movie is outstanding"
-                         rating='4.5'/>
-                    </Col>
-                    <Col>
-                        <MatchCard title="Movie 2" language="English"
-                         picture={img5}
-                         subtitle="Movie is outstanding"
-                         rating='4.5'/>
-                    </Col>
-                </Row>
+                  <Row>
+                     {data.map((movie) => (
+                         <Col>
+                             <MatchCard title={movie.original_title} language={movie.original_language}
+                              picture={img}
+                              subtitle="Movie is outstanding"
+                              rating={movie.vote_average}/>
+                         </Col>
+                     ))}
+                  </Row>
 
                 <div className='heading'>
                     <h3>Based on people like you have watched</h3>
                 </div>
 
                 <Row>
-                    <Col>
-                        <MatchCard title="Movie 1" language="English"
-                         picture={img6}
-                         subtitle="Movie is outstanding"
-                         rating='4.5'/>
-                    </Col>
-                    <Col>
-                        <MatchCard title="Movie 2" language="English"
-                         picture={img}
-                         subtitle="Movie is outstanding"
-                         rating='4.5'/>
-                    </Col>
-                    <Col>
-                        <MatchCard title="ovie 4" language="English"
-                         picture={img}
-                         subtitle="Movie is outstanding"
-                         rating='4.5'/>
-                    </Col>
-                </Row>
+                     {data.map((movie) => (
+                         <Col>
+                             <MatchCard title={movie.original_title} language={movie.original_language}
+                              picture={img}
+                              subtitle="Movie is outstanding"
+                              rating={movie.vote_average}/>
+                         </Col>
+                     ))}
+                 </Row>
             </Container>
         </div>
     )
