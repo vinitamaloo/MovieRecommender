@@ -9,8 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Main {
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(Main.class, args);
-		Services services = new Services();
-		services.getMovieRecommendationsFromOtherUsers("2");
     }
 
 }

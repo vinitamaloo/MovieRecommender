@@ -21,7 +21,7 @@ public class RestApis {
 
     @GetMapping("/get_recommendation_based_on_other_users/{user_id}")
     public List<Movie> getRecommendationByUser(@PathVariable String user_id) throws Exception {
-        List<String> movieIds = services.getMovieRecommendationsFromOtherUsers(user_id);
+        List<Integer> movieIds = services.getMovieRecommendationsFromOtherUsers(user_id);
         System.out.println(movieIds);
         if (movieIds == null) {
             System.out.println("movie ids null");

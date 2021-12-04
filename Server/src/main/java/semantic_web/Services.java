@@ -21,12 +21,8 @@ public class Services {
         return null;
 		List<Movie> result=new ArrayList<>();
 		for(Integer iter:movieId){
-			System.out.println(iter);
 			result.add(getMovieDetails(String.valueOf(iter)));
 		}
-		 //for(String iter:movieId){
-		 //	result.add(getMovieDetails(iter));
-		// }
 		System.out.print(result);
         return result;
     }
@@ -84,38 +80,11 @@ public class Services {
 		for(QuerySolution sol : solutions) {
 			lstofmovie.add((sol.getLiteral("?movieid3").getInt()));	
 		}
-		System.out.println("inside");
-		System.out.println(lstofmovie);
 		return lstofmovie;
-		//  ResultSet results = qexec.execSelect();
-		// String s= ResultSetFormatter.asText(results);
-		// int left=74;
-		// int leftOfId=85;
-		// String key=s.substring(82,85);
-		// HashMap<String,List<String>> eachUserWithTheir3Recommendations=new HashMap<>();
-		// while(left<s.length()-50)
-		// {
-		// 	int right=0;
-	    //         right=leftOfId+getNumberOfDigits(leftOfId,s);
-		// 		key=s.substring(leftOfId,right);
-		// 		leftOfId+=24;
-		// 		right=left+getNumberOfDigits(left,s);
-		// 		List<String> temp=eachUserWithTheir3Recommendations.getOrDefault(key, new ArrayList<>());
-        //         temp.add(s.substring(left, right));
-		// 		eachUserWithTheir3Recommendations.put(key,temp);
-		// 		left+=24;
-		// }
-		// List<String> finalRecommendations=new ArrayList<>();
-		// for(String keyIter:eachUserWithTheir3Recommendations.keySet()) {
-		// 	List<String> movieRecommendations=eachUserWithTheir3Recommendations.get(keyIter);
-		// 	for(int i=0;i<movieRecommendations.size()&& i<3;i++) {
-		// 		finalRecommendations.add(movieRecommendations.get(i));
-		// 	}
-		// }
-		// return finalRecommendations;
 }
 
     public Movie getMovieDetails(String movieId) throws Exception {
+		System.out.println(movieId);
         String queryString = "\n PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
                 +"\n PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
                 +"\n PREFIX owl: <http://www.w3.org/2002/07/owl#>"
@@ -180,7 +149,6 @@ public class Services {
         }
 
 		movie.setCast(casts);
-		System.out.println(movie);
         return movie;
     }
 
