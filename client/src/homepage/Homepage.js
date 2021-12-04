@@ -16,7 +16,6 @@ export default function Homepage() {
     const [userId, setUserId] = useState(localStorage.getItem('userId'));
     const [popularMovies, setPopularMovies] = useState([{}])
     const [otherUserMovies, setOtherUserMovies] = useState([{}])
-    const [otherUserMoviesss, setOtherUserMoviesss] = useState([{}])
     const [usersMovie, setUsersMovie] = useState([{}])
 
     useEffect(() => {
@@ -69,7 +68,7 @@ export default function Homepage() {
                  </div>
 
                   <Row>
-                     {otherUserMovies.map((movie) => (
+                     {usersMovie.map((movie) => (
                          <Col>
                              <MatchCard title={movie.original_title} language={movie.original_language}
                               picture={img3}
@@ -85,10 +84,10 @@ export default function Homepage() {
                 </div>
 
                 <Row>
-                     {usersMovie.map((movie) => (
+                     {otherUserMovies.map((movie) => (
                          <Col>
                              <MatchCard title={movie.original_title} language={movie.original_language}
-                              picture={img2}
+                              picture={img6}
                               subtitle={movie.overview}
                               rating={movie.vote_average}
                               movieId = {movie.movie_id} />

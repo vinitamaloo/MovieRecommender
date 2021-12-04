@@ -1,17 +1,17 @@
 import React, { useState,useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import {get_movie_details} from "../api/services";
 import img from '../Images/movies.jpeg';
 import "./Form.css";
 
 export default function MovieDetails() {
-  const location = useLocation();
-  const category = location.state?.movie_id;
+  let params = useParams();
+  const category = params.movieId
   const [getmovieDetails, setMovieDetails] = useState([{}])
 
   useEffect(() => {
     let mounted = true;
-       console.log(category)
+      console.log(category)
       get_movie_details(category)
       .then(items => {
         if(mounted) {
