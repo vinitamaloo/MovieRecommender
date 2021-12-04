@@ -36,7 +36,7 @@ public class Services {
         }
         return queryAddition;
     }
-    public List<String> getMovieRecommendationsFromOtherUsers(int userid){
+    public List<String> getMovieRecommendationsFromOtherUsers(String userid){
     	String query = "PREFIX owl: <http://www.w3.org/2002/07/owl#>"
 		+"\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
 		+"\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"

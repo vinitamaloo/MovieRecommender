@@ -26,11 +26,11 @@ public class Main {
 		System.out.println("###");
 		services.getPopularMovies();
 		//System.out.println(services.getMovieRecommendationsFromOtherUsers(2));
-		List<Movie> result=services.getMovieRecommendationsFromOtherUsers(services.getMovieRecommendationsFromOtherUsers(2));
+		List<Movie> result=services.getMovieRecommendationsFromOtherUsers(services.getMovieRecommendationsFromOtherUsers("2"));
 		for(Movie omovi:result){
 			System.out.println(omovi);
 		}
-    	//ContentBasedFiltering.contentBasedFiltering();
+    	ContentBasedFiltering.contentBasedFiltering();
     }
 
 	public static void loadTest(String query) {

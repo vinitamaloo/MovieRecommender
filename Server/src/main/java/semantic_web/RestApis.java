@@ -21,14 +21,16 @@ public class RestApis {
         return movies;
     }
 
-    @PostMapping("/get_recommendation_by_user")
-    public List<Movie> getRecommendationByUser(@RequestBody Filter filter) {
-        return new ArrayList<>();
+    @PostMapping("/get_recommendation_by_user/{user_id}")
+    public List<Movie> getRecommendationByUser(@PathVariable String user_id) throws IOException {
+        return services.getMovieRecommendationsFromOtherUsers(services.getMovieRecommendationsFromOtherUsers(user_id));
     }
 
     @PostMapping("/get_movie_details/{movie_id}")
     public Movie getMovieDetails(@PathVariable String movie_id) throws IOException {
         return services.getMovieDetails(movie_id);
     }
+
+    
 
 }
