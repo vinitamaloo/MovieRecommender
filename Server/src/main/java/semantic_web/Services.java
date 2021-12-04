@@ -220,7 +220,7 @@ public class Services {
                     +"\n }"
                     +"\n }"
                         +"\n ORDER BY DESC (?release_date) (?popularity)"
-                        + "\n LIMIT 3";
+                        + "\n LIMIT 9";
 
         QueryExecution qexec = QueryExecutionFactory.sparqlService(serviceEndPoint, queryString);
 
@@ -243,6 +243,7 @@ public class Services {
 				movie.setVote_average(sol.getLiteral("vote_average").getDouble());
 				lstofmovie.add(movie);
 		}
+		System.out.println(lstofmovie);
         return lstofmovie;
     }
 }
